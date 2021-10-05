@@ -1,0 +1,18 @@
+body {
+    width: 100%;
+    height: 100%;
+    background-color: lightslategrey;
+    overflow: hidden;
+    margin: 0;
+
+    > div {
+       width: 100%;
+       height: 100%;
+
+       > div {
+            margin: 10px;
+            width: calc(100% - 22px);
+            height: calc(100% - 22px); 
+        }
+    }
+}
