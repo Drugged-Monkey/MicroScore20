@@ -45,3 +45,8 @@ export interface ICity extends ITown {
 export interface IAppSettings {
     cities: ICity[];
 }
+
+export interface IHeaderLevelItem {
+    name: string;
+    link: string;
+}

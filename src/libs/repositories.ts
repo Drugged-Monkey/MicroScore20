@@ -1,5 +1,5 @@
-import { ITeamResult } from "./interfaces";
-
+import { ICity, ISeason, ITeamResult, ITown } from "./interfaces";
+import { appSettings } from './settings';
 
 export async function loadTournament(id: number): Promise<ITeamResult[]> {
     const key = id.toString();
@@ -20,4 +20,23 @@ export async function loadTournament(id: number): Promise<ITeamResult[]> {
                 console.error(error);
             }
         );
+}
+
+
+export async function loadTowns(): Promise<ITown[]> {
+    const cities = appSettings.cities;
+
+    return new Promise<ITown[]>((resolve) => {
+        const towns = cities.map(c => { return {name: c.name, id: c.id} as ITown });
+        resolve(towns);
+    });
+}
+
+export async function loadSeasons(id: number): Promise<ISeason[]> {
+    const cities = appSettings.cities;
+
+    return new Promise<ISeason[]>((resolve) => {
+        const seasons = cities.find(c => c.id === id)?.seasons.map(c => { return {name: c.name} as ISeason });
+        resolve(seasons);
+    });
 }
