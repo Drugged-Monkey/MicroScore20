@@ -6,10 +6,5 @@
         "module": "commonjs",
         "target": "es5",
         "jsx": "react"
-    },
-    "files": [
-        "./typings/index.d.ts",
-        "./typings/declarations.d.ts",
-        "./src/app.tsx"
-    ]
+    }
 }

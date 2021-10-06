@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { ITeamResult } from '../../libs/interfaces';
 import cssExports from './TeamResult.scss';
 
