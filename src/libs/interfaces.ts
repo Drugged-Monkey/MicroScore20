@@ -1,12 +1,14 @@
-export interface ITown {
-    id: number;
+import { Action } from "redux";
+
+export interface ITownBase {
+    id: string;
     name: string;
 }
 
 export interface ITeam {
     id: number;
     name: string;
-    town: ITown;
+    town: ITownBase;
 }
 
 export interface ITeamResult {
@@ -33,20 +35,81 @@ export interface ITour {
 }
 
 export interface ISeason {
+    id: string;
     name: string;
     tours: ITour[];
 }
 
-export interface ICity extends ITown {
+export interface ITown extends ITownBase {
     titles: ITitles;
     seasons: ISeason[];
 }
 
 export interface IAppSettings {
-    cities: ICity[];
+    cities: ITown[];
 }
 
 export interface IHeaderLevelItem {
+    id: string;
     name: string;
-    link: string;
+    link?: string;
+}
+
+export enum ActionType {
+    ADD_LEVEL1 = "ADD_LEVEL1",
+    ADDMANY_LEVEL1 = "ADDMANY_LEVEL1",
+    CLEAN_LEVEL1 = "CLEAN_LEVEL1",
+    ADD_LEVEL2 = "ADD_LEVEL2",
+    ADDMANY_LEVEL2 = "ADDMANY_LEVEL2",
+    CLEAN_LEVEL2 = "CLEAN_LEVEL2",
+    ADD_LEVEL3 = "ADD_LEVEL3",
+    ADDMANY_LEVEL3 = "ADDMANY_LEVEL3",
+    CLEAN_LEVEL3 = "CLEAN_LEVEL3",
+    LOAD_TOWNS = "LOAD_TOWNS",
+    CHANGE_TOWN = "CHANGE_TOWN",
+    LOADING = "LOADING",
+    LOADED = "LOADED"
+}
+
+export interface IAction extends Action {
+    type: ActionType,
+    payload?: any
+}
+
+export interface IHeaderState {
+    currentTown: number,
+    currentSeason: string,
+    level1: IHeaderLevelItem[],
+    level2: IHeaderLevelItem[],
+    level3: IHeaderLevelItem[]
+}
+
+export const defaultHeaderState: IHeaderState = {
+    currentTown: null,
+    currentSeason: null,
+    level1: [],
+    level2: [],
+    level3: []
+};
+
+export interface ICommonState {
+    loading: boolean,
+    towns: ITown[],
+    error: string,
+}
+
+export const defaultCommonState: ICommonState = {
+    loading: false,
+    towns: [],
+    error: null
+}
+
+export interface IApplicationState {
+    header: IHeaderState,
+    common: ICommonState
+}
+
+export const defaultApplicationState: IApplicationState = {
+    header: defaultHeaderState,
+    common: defaultCommonState
 }

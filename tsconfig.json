@@ -1,10 +1,23 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",
         "sourceMap": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "module": "commonjs",
-        "target": "es5",
-        "jsx": "react"
+        "target": "es6",
+        "lib": [
+            "es2015",
+            "es2017",
+            "dom"
+        ],
+        "removeComments": true,
+        "allowSyntheticDefaultImports": false,
+        "jsx": "react",
+        "allowJs": true,
+        "baseUrl": "./",
+        "paths": {
+            "components/*": [
+                "src/components/*"
+            ]
+        }
     }
 }

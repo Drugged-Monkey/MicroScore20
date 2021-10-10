@@ -1,8 +1,9 @@
 import * as React from 'react';
 import cssExports from './HeaderLevel.scss';
 
-import { IHeaderLevelItem } from '../../libs/interfaces';
+import { ActionType, IHeaderLevelItem } from '../../libs/interfaces';
 import { NavLink } from "react-router-dom";
+import { store } from "../../libs/store";
 
 export interface IHeaderLevelProps {
     id: number;
@@ -24,20 +25,35 @@ class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> 
     }
   }
 
+  onClickHandler = (id: string) => {
+    return (event: React.MouseEvent) => {
+      store.dispatch({ type: ActionType.CHANGE_TOWN, payload: id})
+      event.preventDefault();
+    }
+  };
+
+
+
   render() {
     const { id, items } = this.state;
-    
-    //const classNameKey = `header-level-${id}`;
+    const classKey = `header-level-${id}`;
+    const className = `${cssExports["header-level"]} ${cssExports[classKey]}`;
+    const isVisible = !!items && items.length > 0;
 
-    return (
-        <ul className={cssExports["header-level-1"]}>
+    return isVisible ? (
+        <ul className={className}>
              {
-               items.map((item, i) => (
-                   <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
-                ))
+               items.map((item, i) => {
+                    if(!!item.link) {
+                      return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
+                    } else {
+                      return <li key={i}><a href="#" onClick={this.onClickHandler(item.id)}>[{item.name}]</a></li>
+                    }
+                 }
+                )
               }
         </ul>
-    );
+    ) : "";
   }
 }
 

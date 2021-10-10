@@ -1,4 +1,27 @@
 .header-level {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #333333;
+    
+        li {
+          float: left;
+    
+          a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 16px;
+            text-decoration: none;
+            cursor: pointer;
+    
+            &:hover {
+              background-color: #111111;
+            }
+          }
+        }
+
     &-1 {
         font-size: 16px;
 
@@ -8,19 +31,18 @@
     }
 
     &-2 {
+        font-size: 14px;
+
+        a {
+            padding: 14px;
+        }
+    }
+
+    &-3 {
         font-size: 12px;
 
         a {
             padding: 12px;
         }
     }
-
-    &-3 {
-        font-size: 8px;
-
-        a {
-            padding: 8px;
-        }
-    }
-
 }
