@@ -3,19 +3,21 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware, { ThunkDispatch } from 'redux-thunk'
 
 import { ActionType, IAction, IApplicationState, IHeaderLevelItem } from "./interfaces";
-import { commonReducer, headerReducer } from './reducers';
-import { loggerMiddleware, seasonsMiddleware } from './middlewares';
+import { commonReducer, headerReducer, mmReducer } from './reducers';
+import { loggerMiddleware, seasonMiddleware, seasonsMiddleware } from './middlewares';
 import { loadTownsThunkActionCreator } from './thunkActions';
 
 const rootReducer = combineReducers<IApplicationState, IAction>({
     common: commonReducer,
     header: headerReducer,
+    mm: mmReducer
 });
 
 const composedEnhancer = composeWithDevTools(
     applyMiddleware(thunkMiddleware),
     applyMiddleware(loggerMiddleware),
-    applyMiddleware(seasonsMiddleware)
+    applyMiddleware(seasonsMiddleware),
+    applyMiddleware(seasonMiddleware),
 );
 
 export const store = createStore(rootReducer, composedEnhancer);

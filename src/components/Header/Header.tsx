@@ -7,13 +7,13 @@ import { useSelector } from "react-redux";
 import { store } from "../../libs/store";
 
 
-const Header = ()=> {
+const Header = () => {
 
   const level1 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level1);
   const level2 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level2);
-  const level2SelectedId = useSelector<IApplicationState, string>(state => state.header.currentTown);
+  const level2SelectedId = useSelector<IApplicationState, string>(state => state.header.townId);
   const level3 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level3);
-  const level3SelectedId = useSelector<IApplicationState, string>(state => state.header.currentSeason);
+  const level3SelectedId = useSelector<IApplicationState, string>(state => state.header.seasonId);
 
   const onClickHandler = (type: ActionType) => {
     return (id: string) => { 
@@ -23,8 +23,6 @@ const Header = ()=> {
       }
     }
   }
-
-  console.log(level2SelectedId, level3SelectedId);
 
   return (
     <div className={cssExports.header}>

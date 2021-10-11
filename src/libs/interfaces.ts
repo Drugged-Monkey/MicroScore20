@@ -6,9 +6,9 @@ export interface ITownBase {
 }
 
 export interface ITeam {
-    id: number;
+    id: string;
     name: string;
-    town: ITownBase;
+    town?: ITownBase;
 }
 
 export interface ITeamResult {
@@ -40,6 +40,37 @@ export interface ISeason {
     tours: ITour[];
 }
 
+export interface ITeamResultLight {
+    id: string;
+    score: number;
+}
+
+export interface ITourLight {
+    id: string;
+    results: ITeamResultLight[]
+}
+
+export interface IMMTableTeam {
+    id: string;
+    name: string;
+    score: number;
+    place: number;
+}
+
+export interface IMMCrossTableMatch {
+    hostTeamId: string;
+    guestTeamId: string;
+    hostScore: number;
+    guestScore: number;
+}
+
+export interface IMM {
+    townId: string;
+    seasonId: string;
+    table: IMMTableTeam[];
+    crossTable: IMMCrossTableMatch[];
+}
+
 export interface ITown extends ITownBase {
     titles: ITitles;
     seasons: ISeason[];
@@ -64,9 +95,13 @@ export enum ActionType {
     CLEAN_LEVEL3 = "CLEAN_LEVEL3",
     LOAD_TOWNS = "LOAD_TOWNS",
     CHANGE_TOWN = "CHANGE_TOWN",
+    CLEAN_TOWN = "CLEAN_TOWN",
     CHANGE_SEASON = "CHANGE_SEASON",
+    CLEAN_SEASON = "CLEAN_SEASON",
     LOADING = "LOADING",
-    LOADED = "LOADED"
+    LOADED = "LOADED",
+    CLEAN_MM = "CLEAN_MM",
+    ADD_MM = "ADD_MM"
 }
 
 export interface IAction extends Action {
@@ -75,16 +110,16 @@ export interface IAction extends Action {
 }
 
 export interface IHeaderState {
-    currentTown?: string,
-    currentSeason?: string,
+    townId?: string,
+    seasonId?: string,
     level1: IHeaderLevelItem[],
     level2: IHeaderLevelItem[],
     level3: IHeaderLevelItem[]
 }
 
 export const defaultHeaderState: IHeaderState = {
-    currentTown: null,
-    currentSeason: null,
+    townId: null,
+    seasonId: null,
     level1: [],
     level2: [],
     level3: []
@@ -92,22 +127,36 @@ export const defaultHeaderState: IHeaderState = {
 
 export interface ICommonState {
     loading: boolean,
-    towns: ITown[],
     error: string,
 }
 
 export const defaultCommonState: ICommonState = {
     loading: false,
-    towns: [],
     error: null
+}
+
+export interface IMMState {
+    townId: string;
+    seasonId: string;
+    table: IMMTableTeam[];
+    crossTable: IMMCrossTableMatch[];
+}
+
+export const defaultMMState: IMMState = {
+    townId: null,
+    seasonId: null,
+    table: [],
+    crossTable: []
 }
 
 export interface IApplicationState {
     header: IHeaderState,
-    common: ICommonState
+    common: ICommonState,
+    mm: IMMState
 }
 
 export const defaultApplicationState: IApplicationState = {
     header: defaultHeaderState,
-    common: defaultCommonState
+    common: defaultCommonState,
+    mm: defaultMMState
 }

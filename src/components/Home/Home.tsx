@@ -1,3 +1,4 @@
+import MMResult from '../MMResult/MMResult';
 import * as React from 'react';
 
 import cssExports from './Home.scss';
@@ -14,7 +15,7 @@ class Home extends React.Component<IHomeProps, {}> {
   render() {
     return (
       <div className={cssExports.home}>
-        Home, sweet home!
+        <MMResult />
       </div>
     );
   }

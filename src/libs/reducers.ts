@@ -1,6 +1,6 @@
-import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState } from "./interfaces";
+import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState } from "./interfaces";
 
-export function headerReducer(state: IHeaderState = defaultHeaderState, action: IAction): IHeaderState {
+export const headerReducer = (state: IHeaderState = defaultHeaderState, action: IAction): IHeaderState => {
     switch (action.type) {
         // LEVEL 1
         case ActionType.ADDMANY_LEVEL1:
@@ -51,14 +51,28 @@ export function headerReducer(state: IHeaderState = defaultHeaderState, action: 
         case ActionType.CHANGE_TOWN: {
             return {
                 ...state, ...{
-                    currentTown: action.payload
+                    townId: action.payload
+                }
+            }
+        }
+        case ActionType.CLEAN_TOWN: {
+            return {
+                ...state, ...{
+                    townId: null
                 }
             }
         }
         case ActionType.CHANGE_SEASON: {
             return {
                 ...state, ...{
-                    currentSeason: action.payload
+                    seasonId: action.payload
+                }
+            }
+        }
+        case ActionType.CLEAN_SEASON: {
+            return {
+                ...state, ...{
+                    seasonId: null
                 }
             }
         }
@@ -68,7 +82,7 @@ export function headerReducer(state: IHeaderState = defaultHeaderState, action: 
     }
 }
 
-export function commonReducer(state: ICommonState = defaultCommonState, action: IAction): ICommonState {
+export const commonReducer = (state: ICommonState = defaultCommonState, action: IAction): ICommonState => {
     switch (action.type) {
         case ActionType.LOADING:{
             return {
@@ -83,6 +97,33 @@ export function commonReducer(state: ICommonState = defaultCommonState, action: 
                     loading: false
                 }
             } as ICommonState;
+        }
+        default:
+            return state;
+    }
+}
+
+export const mmReducer = (state: IMMState = defaultMMState, action: IAction): IMMState => {
+    switch (action.type) {
+        case ActionType.ADD_MM:{
+            return {
+                ...state, ...{
+                    townId: action.payload.townId,
+                    seasonId: action.payload.seasonId,
+                    table: action.payload.table,
+                    crossTable: action.payload.crossTable
+                }
+            } as IMMState;
+        }
+        case ActionType.CLEAN_MM: {
+            return {
+                ...state, ...{
+                    townId: null,
+                    seasonId: null,
+                    table: null,
+                    crossTable: null
+                }
+            } as IMMState;
         }
         default:
             return state;

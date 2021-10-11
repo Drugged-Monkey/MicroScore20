@@ -1,9 +1,8 @@
 import * as React from 'react';
 import cssExports from './HeaderLevel.scss';
 
-import { ActionType, IHeaderLevelItem } from '../../libs/interfaces';
+import { IHeaderLevelItem } from '../../libs/interfaces';
 import { NavLink } from "react-router-dom";
-import { store } from "../../libs/store";
 
 export interface IHeaderLevelProps {
   level: number;
@@ -42,16 +41,16 @@ class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> 
       <ul className={className}>
         {
           items.map((item, i) => {
-            if (!!item.id && item.id === selectedId) {
-              return <li key={i}><a href="#" className={selectedClassName}> {item.name} </a></li>
-            } else {
-              if (!!item.link) {
-                return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
+              if (!!item.id && item.id === selectedId) {
+                return <li key={i}><a href="#" className={selectedClassName}> {item.name} </a></li>
               } else {
-                return <li key={i}><a href="#" onClick={onClickHandler(item.id)}>[{item.name}]</a></li>
+                if (!!item.link) {
+                  return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
+                } else {
+                  return <li key={i}><a href="#" onClick={onClickHandler(item.id)}>[{item.name}]</a></li>
+                }
               }
             }
-          }
           )
         }
       </ul>

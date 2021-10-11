@@ -1,7 +1,7 @@
 import { ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType, IAction, IApplicationState, IHeaderLevelItem } from "./interfaces";
-import { loadSeasons, loadTowns } from "./repositories";
+import { loadMM, loadSeasons, loadTowns } from "./repositories";
 
 export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = () => {
     return async (dispatch: Dispatch<IAction>): Promise<void> => {
@@ -23,17 +23,36 @@ export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void
     };
 };
 
-export const loadSeasonsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (id: string) => {
+export const loadSeasonsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string) => {
     return async (dispatch: Dispatch<IAction>): Promise<void> => {
         try {
             dispatch({type: ActionType.LOADING });
 
-            await loadSeasons(id).then(towns => {
+            await loadSeasons(townId).then(towns => {
                 const items = towns.map(t => { return { name: t.name, id: t.id } as IHeaderLevelItem });
 
                 dispatch({
                     type: ActionType.ADDMANY_LEVEL3,
                     payload: items
+                } as IAction);
+            });
+        } catch (e) {
+
+        } finally {
+            dispatch({type: ActionType.LOADED });
+        }
+    };
+};
+
+export const loadSeasonThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string, seasonId: string) => {
+    return async (dispatch: Dispatch<IAction>): Promise<void> => {
+        try {
+            dispatch({type: ActionType.LOADING });
+
+            await loadMM(townId, seasonId).then(mm => {
+                dispatch({
+                    type: ActionType.ADD_MM,
+                    payload: mm
                 } as IAction);
             });
         } catch (e) {
