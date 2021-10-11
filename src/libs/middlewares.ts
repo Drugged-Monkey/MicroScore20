@@ -15,6 +15,7 @@ export const seasonsMiddleware: Middleware<{}, IApplicationState> = storeApi => 
     if (action.type === ActionType.CHANGE_TOWN) {
         store.dispatch({type: ActionType.CLEAN_SEASON });
         store.dispatch({type: ActionType.CLEAN_LEVEL3 });
+        store.dispatch({type: ActionType.CLEAN_MM });
         (store.dispatch as ThunkDispatch<IApplicationState, {}, IAction>)(loadSeasonsThunkActionCreator(action.payload));
     }
     next(action);

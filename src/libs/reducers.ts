@@ -106,6 +106,7 @@ export const commonReducer = (state: ICommonState = defaultCommonState, action: 
 export const mmReducer = (state: IMMState = defaultMMState, action: IAction): IMMState => {
     switch (action.type) {
         case ActionType.ADD_MM:{
+            console.log(action.payload);
             return {
                 ...state, ...{
                     townId: action.payload.townId,

@@ -1,12 +1,28 @@
 .mmresult {
+    h3 {
+        margin: 0px;
+    }
 
-    table {
+    h4 {
+        margin: 0px;
+    }
 
-        tr {
-            
-            td {
-                border: 1px dotted lightgray;
-                padding: 2px;
+    .mm-tables-container {
+        display: flex;
+        align-items: stretch;
+
+        
+        div {
+
+            table {
+
+                tr {
+                    
+                    td {
+                        border: 1px dotted lightgray;
+                        padding: 2px;
+                    }
+                }
             }
         }
     }

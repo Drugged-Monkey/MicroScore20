@@ -1,6 +1,8 @@
 import { ITown, ISeason, ITeamResult, ITownBase, IMM, IMMCrossTableMatch, ITeam, ITeamResultLight, ITourLight, IMMTableTeam } from "./interfaces";
 import { appSettings } from './settings';
 
+const FAKE_DELAY: number = 500;
+
 export const loadTournament = async (id: number): Promise<ITeamResult[]> => {
     const key = id.toString();
 
@@ -28,7 +30,7 @@ export const loadTowns = (): Promise<ITownBase[]> => {
 
     return new Promise<ITownBase[]>((resolve, reject) => {
         try {
-            delay(1000).then(() => {
+            delay(FAKE_DELAY).then(() => {
                 const towns = cities.map(c => { return { name: c.name, id: c.id } as ITownBase });
                 resolve(towns);
             });
@@ -44,7 +46,7 @@ export const loadSeasons = (id: string): Promise<ISeason[]> => {
 
     return new Promise<ISeason[]>((resolve, reject) => {
         try {
-            delay(1000).then(() => {
+            delay(FAKE_DELAY).then(() => {
                 const seasons = cities.find(c => c.id === id)?.seasons.map(c => { return { name: c.name, id: c.id } as ISeason });
                 resolve(seasons);
             });
@@ -60,18 +62,18 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
     const tourCount = 7;
     const questions = 36;
 
-    const teams = new Array(teamsCount).map((item, i) => {
+    const teams = new Array(teamsCount).fill(undefined).map((item, i) => {
         return {
             name: grs(10),
             id: (i + 1).toString()
         } as ITeam;
     });
 
-    const tours = new Array(tourCount).map((item, i) => { 
+    const tours = new Array(tourCount).fill(undefined).map((item, i) => { 
         const results = teams.map(team => { return {
-            id: team.id,
-            score: grn(0, questions)
-        } as ITeamResultLight});
+                id: team.id,
+                score: grn(0, questions)
+            } as ITeamResultLight});
 
         return {
             id: (i+1).toString(),
@@ -80,17 +82,18 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
     });
 
     let crossTable: IMMCrossTableMatch[] = [];
-
+    
     teams.forEach((host) => teams.forEach((guest) => {
         if (host.id !== guest.id && !!!crossTable.find(m =>
              m.guestTeamId === guest.id && m.hostTeamId === host.id
              ||
              m.guestTeamId === host.id && m.hostTeamId === guest.id
              )) {
-                let hs, gs = 0;
+                let hs = 0;
+                let gs = 0;
                 tours.forEach(t => {
-                    const hr = t.results.find(r => r.id === host.id) || 0;
-                    const gr = t.results.find(r => r.id === guest.id) || 0;
+                    const hr = t.results.find(r => r.id === host.id);
+                    const gr = t.results.find(r => r.id === guest.id);
                     if(hr > gr) hs++; 
                     if(gr > hr) gs++;
                 });
@@ -127,9 +130,11 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
         }
     });
 
+    debugger;
+
     return new Promise<IMM>((resolve, reject) => {
         try {
-            delay(1000).then(() => {
+            delay(FAKE_DELAY).then(() => {
 
                 const mm = {
                     townId: townId,
