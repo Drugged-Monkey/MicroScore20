@@ -3,15 +3,6 @@ import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState,
 export function headerReducer(state: IHeaderState = defaultHeaderState, action: IAction): IHeaderState {
     switch (action.type) {
         // LEVEL 1
-        case ActionType.ADD_LEVEL1:
-            return {
-                ...state, ...{
-                    level1: [
-                        ...state.level1,
-                        action.payload as IHeaderLevelItem
-                    ]
-                } as IHeaderState
-            };
         case ActionType.ADDMANY_LEVEL1:
             return {
                 ...state, ...{
@@ -27,16 +18,6 @@ export function headerReducer(state: IHeaderState = defaultHeaderState, action: 
         }
         // LEVEL 1
         // LEVEL 2
-        case ActionType.ADD_LEVEL2:
-            return {
-                ...state, ...{
-                    level2: [
-                        ...state.level2,
-                        action.payload as IHeaderLevelItem
-                    ]
-
-                } as IHeaderState
-            };
         case ActionType.ADDMANY_LEVEL2:
             return {
                 ...state, ...{
@@ -52,16 +33,6 @@ export function headerReducer(state: IHeaderState = defaultHeaderState, action: 
         }
         // LEVEL 2
         // LEVEL 3
-        case ActionType.ADD_LEVEL3:
-            return {
-                ...state, ...{
-                    level3: [
-                        ...state.level3,
-                        action.payload as IHeaderLevelItem
-                    ]
-
-                } as IHeaderState
-            };
         case ActionType.ADDMANY_LEVEL3:
             return {
                 ...state, ...{
