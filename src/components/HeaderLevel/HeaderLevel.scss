@@ -15,7 +15,12 @@
             padding: 16px;
             text-decoration: none;
             cursor: pointer;
-    
+            
+            &.selected {
+                font-weight: 800;
+                pointer-events: none;
+            }
+
             &:hover {
               background-color: #111111;
             }
@@ -24,25 +29,28 @@
 
     &-1 {
         font-size: 16px;
-
-        a {
-            padding: 16px;
+        li {
+            a {
+                padding: 16px;
+            }
         }
     }
 
     &-2 {
         font-size: 14px;
-
-        a {
-            padding: 14px;
+        li {
+            a {
+                padding: 14px;
+            }
         }
     }
 
     &-3 {
         font-size: 12px;
-
-        a {
-            padding: 12px;
+        li {
+            a {
+                padding: 12px;
+            }
         }
     }
 }

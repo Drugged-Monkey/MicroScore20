@@ -5,6 +5,7 @@ interface CssExports {
   'header-level-1': string;
   'header-level-2': string;
   'header-level-3': string;
+  'selected': string;
 }
 export const cssExports: CssExports;
 export default cssExports;

@@ -67,6 +67,7 @@ export enum ActionType {
     CLEAN_LEVEL3 = "CLEAN_LEVEL3",
     LOAD_TOWNS = "LOAD_TOWNS",
     CHANGE_TOWN = "CHANGE_TOWN",
+    CHANGE_SEASON = "CHANGE_SEASON",
     LOADING = "LOADING",
     LOADED = "LOADED"
 }
@@ -77,8 +78,8 @@ export interface IAction extends Action {
 }
 
 export interface IHeaderState {
-    currentTown: number,
-    currentSeason: string,
+    currentTown?: string,
+    currentSeason?: string,
     level1: IHeaderLevelItem[],
     level2: IHeaderLevelItem[],
     level3: IHeaderLevelItem[]

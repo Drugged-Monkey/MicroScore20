@@ -2,22 +2,35 @@ import * as React from "react";
 
 import cssExports from './Header.scss';
 import HeaderLevel from '../HeaderLevel/HeaderLevel';
-import { IApplicationState, IHeaderLevelItem } from "src/libs/interfaces";
-import { connect, useSelector } from "react-redux";
+import { ActionType, IApplicationState, IHeaderLevelItem } from "../../libs/interfaces";
+import { useSelector } from "react-redux";
+import { store } from "../../libs/store";
 
 
 const Header = ()=> {
 
   const level1 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level1);
   const level2 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level2);
+  const level2SelectedId = useSelector<IApplicationState, string>(state => state.header.currentTown);
   const level3 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level3);
+  const level3SelectedId = useSelector<IApplicationState, string>(state => state.header.currentSeason);
 
+  const onClickHandler = (type: ActionType) => {
+    return (id: string) => { 
+      return (event: React.MouseEvent) => {
+        store.dispatch({ type: type, payload: id })
+        event.preventDefault();
+      }
+    }
+  }
+
+  console.log(level2SelectedId, level3SelectedId);
 
   return (
     <div className={cssExports.header}>
-        <HeaderLevel key={`${new Date().getMilliseconds()}1`} id={1} items={level1} />
-        <HeaderLevel key={`${new Date().getMilliseconds()}2`} id={2} items={level2} />
-        <HeaderLevel key={`${new Date().getMilliseconds()}3`} id={3} items={level3} />
+        <HeaderLevel key={`${new Date().getMilliseconds()}1`} level={1} items={level1} />
+        <HeaderLevel key={`${new Date().getMilliseconds()}2`} level={2} items={level2} onClickHandler={onClickHandler(ActionType.CHANGE_TOWN)} selectedId={level2SelectedId}/>
+        <HeaderLevel key={`${new Date().getMilliseconds()}3`} level={3} items={level3} onClickHandler={onClickHandler(ActionType.CHANGE_SEASON)} selectedId={level3SelectedId}/>
     </div>
   );
 }

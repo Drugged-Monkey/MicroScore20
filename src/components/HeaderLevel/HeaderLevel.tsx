@@ -6,53 +6,55 @@ import { NavLink } from "react-router-dom";
 import { store } from "../../libs/store";
 
 export interface IHeaderLevelProps {
-    id: number;
-    items: IHeaderLevelItem[];
+  level: number;
+  items: IHeaderLevelItem[];
+  selectedId?: string;
+  onClickHandler?: (id: string) => (event: React.MouseEvent) => void
 }
 
 export interface IHeaderLevelState {
-    id: number;
-    items: IHeaderLevelItem[]
+  level: number;
+  items: IHeaderLevelItem[];
+  selectedId?: string;
+  onClickHandler?: (id: string) => (event: React.MouseEvent) => void
 }
 
 class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> {
-  constructor(props: IHeaderLevelProps){
+  constructor(props: IHeaderLevelProps) {
     super(props);
 
     this.state = {
-        id: this.props.id,
-        items: this.props.items
+      level: this.props.level,
+      items: this.props.items,
+      selectedId: this.props.selectedId,
+      onClickHandler: this.props.onClickHandler
     }
   }
 
-  onClickHandler = (id: string) => {
-    return (event: React.MouseEvent) => {
-      store.dispatch({ type: ActionType.CHANGE_TOWN, payload: id})
-      event.preventDefault();
-    }
-  };
-
-
-
   render() {
-    const { id, items } = this.state;
-    const classKey = `header-level-${id}`;
+    const { level, items, selectedId, onClickHandler } = this.state;
+    const classKey = `header-level-${level}`;
     const className = `${cssExports["header-level"]} ${cssExports[classKey]}`;
+    const selectedClassName = cssExports.selected;
     const isVisible = !!items && items.length > 0;
 
     return isVisible ? (
-        <ul className={className}>
-             {
-               items.map((item, i) => {
-                    if(!!item.link) {
-                      return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
-                    } else {
-                      return <li key={i}><a href="#" onClick={this.onClickHandler(item.id)}>[{item.name}]</a></li>
-                    }
-                 }
-                )
+      <ul className={className}>
+        {
+          items.map((item, i) => {
+            if (!!item.id && item.id === selectedId) {
+              return <li key={i}><a href="#" className={selectedClassName}> {item.name} </a></li>
+            } else {
+              if (!!item.link) {
+                return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
+              } else {
+                return <li key={i}><a href="#" onClick={onClickHandler(item.id)}>[{item.name}]</a></li>
               }
-        </ul>
+            }
+          }
+          )
+        }
+      </ul>
     ) : "";
   }
 }

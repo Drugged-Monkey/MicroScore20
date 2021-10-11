@@ -28,7 +28,7 @@ export function loadTowns(): Promise<ITownBase[]> {
 
     return new Promise<ITownBase[]>((resolve, reject) => {
         try {
-            delay(1500).then(() => {
+            delay(1000).then(() => {
                 const towns = cities.map(c => { return { name: c.name, id: c.id } as ITownBase });
                 resolve(towns);
             });
@@ -44,8 +44,8 @@ export function loadSeasons(id: string): Promise<ISeason[]> {
 
     return new Promise<ISeason[]>((resolve, reject) => {
         try {            
-            delay(1500).then(() => {
-                const seasons = cities.find(c => c.id === id)?.seasons.map(c => { return { name: c.name } as ISeason });
+            delay(1000).then(() => {
+                const seasons = cities.find(c => c.id === id)?.seasons.map(c => { return { name: c.name, id: c.id } as ISeason });
                 resolve(seasons);
             });
         } catch (ex) {

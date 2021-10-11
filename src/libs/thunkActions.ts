@@ -1,9 +1,7 @@
 import { ActionCreator, Dispatch } from "redux";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
+import { ThunkAction } from "redux-thunk";
 import { ActionType, IAction, IApplicationState, IHeaderLevelItem } from "./interfaces";
 import { loadSeasons, loadTowns } from "./repositories";
-import store from "./store";
-
 
 export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = () => {
     return async (dispatch: Dispatch<IAction>): Promise<void> => {

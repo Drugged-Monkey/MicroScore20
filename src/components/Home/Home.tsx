@@ -9,7 +9,6 @@ export interface IHomeProps {
 class Home extends React.Component<IHomeProps, {}> {
   constructor(props: IHomeProps){
     super(props);
-
   }
 
   render() {

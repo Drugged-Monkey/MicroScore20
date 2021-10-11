@@ -84,6 +84,13 @@ export function headerReducer(state: IHeaderState = defaultHeaderState, action: 
                 }
             }
         }
+        case ActionType.CHANGE_SEASON: {
+            return {
+                ...state, ...{
+                    currentSeason: action.payload
+                }
+            }
+        }
         // CHANGE TOWN
         default:
             return state;

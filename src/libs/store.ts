@@ -32,5 +32,3 @@ export const fetchinItialData = () => {
 
     (store.dispatch as ThunkDispatch<IApplicationState, {}, IAction>)(loadTownsThunkActionCreator());
 };
-
-export default store;
