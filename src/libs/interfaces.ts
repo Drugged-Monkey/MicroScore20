@@ -54,6 +54,9 @@ export interface IMMTableTeam {
     id: string;
     name: string;
     score: number;
+    win: number;
+    draw: number;
+    lose: number;
     place: number;
 }
 

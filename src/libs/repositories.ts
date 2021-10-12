@@ -69,34 +69,38 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
         } as ITeam;
     });
 
-    const tours = new Array(tourCount).fill(undefined).map((item, i) => { 
-        const results = teams.map(team => { return {
+    const tours = new Array(tourCount).fill(undefined).map((item, i) => {
+        const results = teams.map(team => {
+            return {
                 id: team.id,
                 score: grn(0, questions)
-            } as ITeamResultLight});
+            } as ITeamResultLight
+        });
 
         return {
-            id: (i+1).toString(),
+            id: (i + 1).toString(),
             results: results
         } as ITourLight;
     });
 
     let crossTable: IMMCrossTableMatch[] = [];
-    
+
     teams.forEach((host) => teams.forEach((guest) => {
-        if (host.id !== guest.id && !!!crossTable.find(m =>
-             m.guestTeamId === guest.id && m.hostTeamId === host.id
-             ||
-             m.guestTeamId === host.id && m.hostTeamId === guest.id
-             )) {
-                let hs = 0;
-                let gs = 0;
-                tours.forEach(t => {
-                    const hr = t.results.find(r => r.id === host.id);
-                    const gr = t.results.find(r => r.id === guest.id);
-                    if(hr > gr) hs++; 
-                    if(gr > hr) gs++;
-                });
+        if (host.id !== guest.id
+            && !!!crossTable.find(m =>
+                m.guestTeamId === guest.id && m.hostTeamId === host.id
+                ||
+                m.guestTeamId === host.id && m.hostTeamId === guest.id
+            )
+        ) {
+            let hs = 0;
+            let gs = 0;
+            tours.forEach(t => {
+                const hr = t.results.find(r => r.id === host.id)?.score || 0;
+                const gr = t.results.find(r => r.id === guest.id)?.score || 0;
+                if (hr > gr) hs += 1;
+                if (gr > hr) gs += 1;
+            });
 
             crossTable.push({
                 hostTeamId: host.id,
@@ -111,26 +115,34 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
 
     crossTable.forEach(ct => {
         let team = table.find(t => t.id === ct.hostTeamId);
-        let score = calcScore(ct.hostScore, ct.guestScore);
-        if(!!team) {
+
+        const {w,d,l,s} = calcScore(ct.hostScore, ct.guestScore);
+
+        if (!!team) {
             team = {
                 ...team,
                 ...{
-                    score: team.score + score
+                    score: team.score + s,
+                    win : team.win + w,
+                    draw: team.draw + d,
+                    lose: team.lose + l
                 }
-            } 
+            }
             table = table.map((t) => t.id === team.id ? team : t);
         } else {
             table.push({
                 id: ct.hostTeamId,
                 name: teams.find(t => t.id === ct.hostTeamId)?.name,
-                score: score,
+                score: s,
+                win: w,
+                draw: d,
+                lose: l,
                 place: 0
             });
         }
     });
 
-    debugger;
+    table = table.sort((a, b) => b.score - a.score);
 
     return new Promise<IMM>((resolve, reject) => {
         try {
@@ -153,8 +165,12 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
 }
 
 
-const calcScore = (a: number, b: number): number => {
-    return (a > b ? 2 : (a == b ? 1 : 0));
+const calcScore = (a: number, b: number): { w: number, d: number; l: number; s: number; } => {
+    switch (true) {
+        case a > b: return { w: 1, d: 0, l: 0, s: 2 };
+        case a == b: return { w: 0, d: 1, l: 0, s: 1 };
+        case a < b: return { w: 0, d: 0, l: 1, s: 0 };
+    }
 }
 
 const delay = (ms: number) => {
@@ -162,9 +178,11 @@ const delay = (ms: number) => {
 }
 
 const grs = (length: number): string => {
-    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10);
+    return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, length);
 }
 
 const grn = (min?: number, max?: number): number => {
-    return Math.random() * (max - min) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
 }

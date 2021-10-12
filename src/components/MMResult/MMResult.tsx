@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 
-import { IApplicationState, IMMState } from "../../libs/interfaces";
+import { IApplicationState, IMMState, ITown } from "../../libs/interfaces";
 import cssExports from "./MMResult.scss";
 import MMCrossTable from "../MMCrossTable/MMCrossTable";
 import MMTable from "../MMTable/MMTable";
@@ -12,16 +12,15 @@ export const MMResult = () => {
     const townId = mm.townId;
     const mmTable = mm.table;
     const mmCrossTable = mm.crossTable;
+    const townName = useSelector<IApplicationState, string>(state => state.header.level2.find((t) => t.id === townId)?.name);
 
     const visible = !!seasonId && !!townId && !!mmTable && !!mmCrossTable;
     
-    console.log(mmTable);
-
     if(visible) {
         return (
             <div className={cssExports.mmresult}>
                 <div>
-                    <h3>{townId}</h3>
+                    <h3>{townName}</h3>
                     <h4>{seasonId}</h4>
                 </div>
                 <div className={cssExports["mm-tables-container"]}>
@@ -29,7 +28,7 @@ export const MMResult = () => {
                         <MMTable mmTable={mmTable}/>
                     </div>
                     <div>
-                        <MMCrossTable mmCrossTable={mmCrossTable}/>
+                        <MMCrossTable mmTable={mmTable} mmCrossTable={mmCrossTable}/>
                     </div>
                 </div>
             </div>
