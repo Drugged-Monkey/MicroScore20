@@ -95,6 +95,7 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
         ) {
             let hs = 0;
             let gs = 0;
+            
             tours.forEach(t => {
                 const hr = t.results.find(r => r.id === host.id)?.score || 0;
                 const gr = t.results.find(r => r.id === guest.id)?.score || 0;
