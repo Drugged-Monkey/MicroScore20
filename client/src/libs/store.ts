@@ -22,7 +22,9 @@ const composedEnhancer = composeWithDevTools(
 
 export const store = createStore(rootReducer, composedEnhancer);
 
-export const fetchinItialData = () => {
+export const fetchinItialData = async () => {
+    fetchData();
+
     store.dispatch({type: ActionType.CLEAN_LEVEL1, payload: null});
     store.dispatch({type: ActionType.CLEAN_LEVEL2, payload: null});
     store.dispatch({type: ActionType.CLEAN_LEVEL3, payload: null});
@@ -34,3 +36,23 @@ export const fetchinItialData = () => {
 
     (store.dispatch as ThunkDispatch<IApplicationState, {}, IAction>)(loadTownsThunkActionCreator());
 };
+
+const fetchData = async () => {
+    callBackendAPI()
+        .then(res => {
+            console.log(res); 
+        })
+        .catch(err => { 
+            console.error(err);
+        });
+}
+
+const callBackendAPI = async () => {
+  const response = await fetch('/api/towns');
+  const body = await response.json();
+
+  if (response.status !== 200) {
+    throw Error(body.message) 
+  }
+  return body;
+}

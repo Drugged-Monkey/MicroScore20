@@ -42,6 +42,9 @@ module.exports = {
     historyApiFallback: true,
     open: true,
     port: 4201,
+    proxy: { 
+      "/api" : 'http://localhost:5000'
+    },
     client: {
       overlay: true
     }

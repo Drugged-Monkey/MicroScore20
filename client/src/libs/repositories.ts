@@ -1,3 +1,5 @@
+//import { loadTownsFromDb } from "./firebase";
+
 import { ITown, ISeason, ITeamResult, ITownBase, IMM, IMMCrossTableMatch, ITeam, ITeamResultLight, ITourLight, IMMTableTeam } from "./interfaces";
 import { appSettings } from './settings';
 
@@ -24,6 +26,11 @@ export const loadTournament = async (id: number): Promise<ITeamResult[]> => {
         );
 }
 
+/*
+export const loadTowns = (): Promise<ITownBase[]> => {
+    return loadTownsFromDb();
+}
+*/
 
 export const loadTowns = (): Promise<ITownBase[]> => {
     const cities = appSettings.cities;
