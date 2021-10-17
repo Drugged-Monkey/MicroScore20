@@ -1,4 +1,4 @@
-import MMResult from '../MMResult/MMResult';
+import MMResult from '../../components/MMResult/MMResult';
 import * as React from 'react';
 
 import cssExports from './Home.scss';
