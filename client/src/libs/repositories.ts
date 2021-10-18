@@ -2,10 +2,11 @@
 
 import { ITown, ISeason, ITeamResult, ITownBase, IMM, IMMCrossTableMatch, ITeam, ITeamResultLight, ITourLight, IMMTableTeam } from "./interfaces";
 import { appSettings } from './settings';
+import { Cache } from './cache';
 
 const FAKE_DELAY: number = 500;
 
-export const loadTournament = async (id: number): Promise<ITeamResult[]> => {
+export const loadTournamentFromRating = async (id: number): Promise<ITeamResult[]> => {
     const key = id.toString();
 
     return await fetch(
@@ -28,9 +29,9 @@ export const loadTournament = async (id: number): Promise<ITeamResult[]> => {
 
 let townsCache: Promise<ITownBase[]>;
 export const loadTowns = (): Promise<ITownBase[]> => {
-    if(!!townsCache) return townsCache;
+    if (!!townsCache) return townsCache;
 
-    return townsCache = 
+    return townsCache =
         fetch('/api/towns')
             .then(res => res.json())
             .then(body => {
@@ -38,28 +39,30 @@ export const loadTowns = (): Promise<ITownBase[]> => {
                 return body;
             })
             .catch(err => console.error(err));
+}
 
-        /*
-        const fetchData = async () => {
-            callBackendAPI()
-                .then(res => {
-                    console.log(res); 
-                })
-                .catch(err => { 
-                    console.error(err);
-                });
-        }
-    
-        const callBackendAPI = async () => {
-        const response = await fetch('/api/towns');
-        const body = await response.json();
-        
-        if (response.status !== 200) {
-            throw Error(body.message) 
-        }
-        return body;
-        }
-        */
+let seasonsCache: Cache<Promise<ISeason[]>> = new Cache<Promise<ISeason[]>>();
+export const loadSeasons = (townId: string): Promise<ISeason[]> => {
+    const key = townId;
+    let result = seasonsCache.get(key);
+
+    if(!!result) return result;
+
+    const params = {
+        method: 'GET',
+
+    }
+
+    result = fetch(`/api/seasons?townId=${townId}`)
+        .then(res => res.json())
+        .then(body => {
+            console.log(body);
+            return body;
+        })
+        .catch(err => console.error(err));
+
+    seasonsCache.put(key, result);
+    return seasonsCache.get(key);
 }
 
 
@@ -79,7 +82,7 @@ export const loadFakeTowns = (): Promise<ITownBase[]> => {
     });
 }
 
-export const loadSeasons = (id: string): Promise<ISeason[]> => {
+export const loadFakeSeasons = (id: string): Promise<ISeason[]> => {
     const cities = appSettings.cities;
 
     return new Promise<ISeason[]>((resolve, reject) => {
@@ -133,7 +136,7 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
         ) {
             let hs = 0;
             let gs = 0;
-            
+
             tours.forEach(t => {
                 const hr = t.results.find(r => r.id === host.id)?.score || 0;
                 const gr = t.results.find(r => r.id === guest.id)?.score || 0;
@@ -155,14 +158,14 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
     crossTable.forEach(ct => {
         let team = table.find(t => t.id === ct.hostTeamId);
 
-        const {w,d,l,s} = calcScore(ct.hostScore, ct.guestScore);
+        const { w, d, l, s } = calcScore(ct.hostScore, ct.guestScore);
 
         if (!!team) {
             team = {
                 ...team,
                 ...{
                     score: team.score + s,
-                    win : team.win + w,
+                    win: team.win + w,
                     draw: team.draw + d,
                     lose: team.lose + l
                 }

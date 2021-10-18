@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { ITeamResult } from '../../libs/interfaces';
-import { loadTournament } from '../../libs/repositories';
+import { loadTournamentFromRating } from '../../libs/repositories';
 import TeamResult from '../TeamResult/TeamResult';
 import cssExports from './TournamentResult.scss';
 
@@ -27,7 +27,7 @@ class TournamentResult extends React.Component<ITournamentResultProps, ITourname
   }
 
   componentDidMount() {
-      loadTournament(this.props.id)
+      loadTournamentFromRating(this.props.id)
       .then(
         (result) => {
           this.setState({

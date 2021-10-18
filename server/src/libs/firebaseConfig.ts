@@ -15,3 +15,5 @@ export const serviceAccount : admin.ServiceAccount = {
   clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   privateKey: process.env.FIREBASE_PRIVATE_KEY
 };
+
+export const fireBaseUrl: string = process.env.FIREBASE_URL;
