@@ -1,20 +1,12 @@
 import {
-    ITown,
     ISeason,
     ITeamResultDetailed,
     ITownBase,
     IMM,
-    IMMCrossTableMatch,
-    ITeam,
-    ITeamResultLight,
-    ITourLight,
-    IMMTableTeam,
     ITour,
 } from "./interfaces";
-import { appSettings } from "./settings";
-import { Cache } from "./cache";
 
-const FAKE_DELAY: number = 500;
+import { Cache } from "./cache";
 
 export const loadTournamentFromRating = async (
     id: number
@@ -47,10 +39,6 @@ export const loadTowns = (): Promise<ITownBase[]> => {
 
     return (townsCache = fetch("/api/towns")
         .then((res) => res.json())
-        .then((body) => {
-            console.log(body);
-            return body;
-        })
         .catch((err) => console.error(err)));
 };
 
@@ -63,10 +51,6 @@ export const loadSeasons = (townId: string): Promise<ISeason[]> => {
 
     result = fetch(`/api/seasons?townId=${townId}`)
         .then((res) => res.json())
-        .then((body) => {
-            console.log(body);
-            return body;
-        })
         .catch((err) => console.error(err));
 
     seasonsCache.put(key, result);
@@ -82,10 +66,6 @@ export const loadTours = (townId: string, seasonId: string): Promise<ITour[]> =>
 
     result = fetch(`/api/tours?townId=${townId}&seasonId=${seasonId}`)
         .then((res) => res.json())
-        .then((body) => {
-            console.log(body);
-            return body;
-        })
         .catch((err) => console.error(err));
 
     toursCache.put(key, result);
@@ -102,16 +82,8 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
 
     result = fetch(`/api/mm?townId=${townId}&seasonId=${seasonId}`)
         .then((res) => res.json())
-        .then((body) => {
-            console.log(body);
-            return body;
-        })
         .catch((err) => console.error(err));
 
     mmCache.put(key, result);
     return mmCache.get(key);
-};
-
-const delay = (ms: number) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
 };

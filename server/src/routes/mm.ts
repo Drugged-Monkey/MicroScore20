@@ -76,8 +76,6 @@ export const getMMRouteHandler = (request: express.Request, response: express.Re
 
                         const { w, d, l, s } = calcScore(ct.hs, ct.gs);
 
-                        console.log(ct.hs, ct.gs, w, d, l, s)
-
                         if (!!team) {
                             team = {
                                 ...team,
@@ -107,6 +105,7 @@ export const getMMRouteHandler = (request: express.Request, response: express.Re
                     const mm = {
                         townId: town.id,
                         seasonId: season.id,
+                        seasonName: season.name,
                         table,
                         crossTable
                     } as IMM;
@@ -133,32 +132,3 @@ const calcScore = ( a: number, b: number): { w: number; d: number; l: number; s:
             return { w: 0, d: 0, l: 1, s: 0 };
     }
 };
-
-/*
-
-export interface IMMTableTeam {
-    id: string;
-    name: string;
-    score: number;
-    win: number;
-    draw: number;
-    lose: number;
-    place: number;
-}
-
-export interface IMMCrossTableMatch {
-    hostTeamId: string;
-    guestTeamId: string;
-    hostScore: number;
-    guestScore: number;
-}
-
-export interface IMM {
-    townId: string;
-    seasonId: string;
-    table: IMMTableTeam[];
-    crossTable: IMMCrossTableMatch[];
-}
-
-
-*/

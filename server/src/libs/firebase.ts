@@ -80,8 +80,8 @@ export const loadToursFromDb = (townId: string, seasonId: string): Promise<ITour
       let data: ITour[] = [] as ITour[];
       docs.forEach((doc) => {
         const d = doc.data() as ITour;
-       // data.push({ ...d, ...{ id: doc.id, results: d.results.sort((a, b) => a.score - b.score) } } as ITour);
-       data.push({ ...d, ...{ id: doc.id } } as ITour);
+        // data.push({ ...d, ...{ id: doc.id, results: d.results.sort((a, b) => a.score - b.score) } } as ITour);
+        data.push({ ...d, ...{ id: doc.id } } as ITour);
       });
       data = data.sort(sorterCreator(SortDirection.ASC));
       return data;

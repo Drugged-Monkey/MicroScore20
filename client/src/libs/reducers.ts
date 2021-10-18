@@ -106,11 +106,11 @@ export const commonReducer = (state: ICommonState = defaultCommonState, action: 
 export const mmReducer = (state: IMMState = defaultMMState, action: IAction): IMMState => {
     switch (action.type) {
         case ActionType.ADD_MM:{
-            console.log(action.payload);
             return {
                 ...state, ...{
                     townId: action.payload.townId,
                     seasonId: action.payload.seasonId,
+                    seasonName: action.payload.seasonName,
                     table: action.payload.table,
                     crossTable: action.payload.crossTable
                 }
