@@ -1,6 +1,7 @@
 
 import * as admin from "firebase-admin";
 
+import { Cache } from "./cache";
 import { firebaseConfig, serviceAccount, fireBaseUrl } from "./firebaseConfig";
 import { ITownBase, ISeasonBase } from "./interfaces";
 
@@ -27,26 +28,31 @@ export const loadTownsFromDb = async (): Promise<ITownBase[]> => {
     });
 };
 
-// let seasonsCache: Promise<ISeasonBase[]>;
+const seasonsCache: Cache<Promise<ISeasonBase[]>> = new Cache<Promise<ISeasonBase[]>>();
 export const loadSeasonsFromDb = async (townId: string): Promise<ISeasonBase[]> => {
+  const key = townId;
 
-  // if (!!seasonsCache) return seasonsCache;
+  let result = seasonsCache.get(key)
+
+  if (!!result) return result;
 
   const q = admin
     .firestore()
     .collection("seasons")
     .where("townId", "==", townId);
 
-  return  q.get()
-      .then(docs => {
-       // console.log(docs);
-        const data: ISeasonBase[] = [] as ISeasonBase[];
-        docs.forEach((doc) => data.push({ name: (doc.data() as ISeasonBase).name, id: doc.id }));
-        console.log(data);
-        return data;
-      })
-      .catch((e) => {
-        console.error(e);
-        throw e;
-      });
+  result = q.get()
+    .then(docs => {
+      const data: ISeasonBase[] = [] as ISeasonBase[];
+      docs.forEach((doc) => data.push({ name: (doc.data() as ISeasonBase).name, id: doc.id }));
+      console.log(data);
+      return data;
+    })
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+
+  seasonsCache.put(key, result);
+  return seasonsCache.get(key);
 }
