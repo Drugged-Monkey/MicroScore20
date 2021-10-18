@@ -1,10 +1,10 @@
 
 import * as admin from "firebase-admin";
 
-import { firebaseConfig, serviceAccountKey } from "./firebaseConfig";
+import { firebaseConfig, serviceAccount } from "./firebaseConfig";
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccountKey),
+  credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://microscore-2-0-default-rtdb.europe-west1.firebasedatabase.app"
 });
 
