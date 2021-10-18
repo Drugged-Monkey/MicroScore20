@@ -82,10 +82,10 @@ export const getMMRouteHandler = (request: express.Request, response: express.Re
                             team = {
                                 ...team,
                                 ...{
-                                    score: team.s + s,
-                                    win: team.w + w,
-                                    draw: team.d + d,
-                                    lose: team.l + l,
+                                    s: team.s + s,
+                                    w: team.w + w,
+                                    d: team.d + d,
+                                    l: team.l + l,
                                 },
                             };
                             table = table.map((t) => (t.id === team.id ? team : t));
