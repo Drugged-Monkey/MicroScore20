@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { ITeamResult } from '../../libs/interfaces';
+import { ITeamResultDetailed } from '../../libs/interfaces';
 import { loadTournamentFromRating } from '../../libs/repositories';
 import TeamResult from '../TeamResult/TeamResult';
 import cssExports from './TournamentResult.scss';
@@ -12,7 +12,7 @@ export interface ITournamentResultProps {
 export interface ITournamentResultState {
   error: string,
   isLoaded: boolean,
-  items: ITeamResult[]
+  items: ITeamResultDetailed[]
 }
 
 class TournamentResult extends React.Component<ITournamentResultProps, ITournamentResultState> {

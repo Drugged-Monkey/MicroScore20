@@ -21,8 +21,8 @@ export const MMCrossTable = (props: IMMCrossTableProps) => {
                             <td>Place</td>
                             <td>Name</td>
                             {
-                                h.map((m) => {
-                                    return <td key={`ccheaders-${m.id}`}>{m.name}</td>
+                                h.map((m, i) => {
+                                    return <td key={`ccheaders-${m.id}`}>{i+1}</td>
                                 })
                             }
                         </tr>
@@ -33,16 +33,16 @@ export const MMCrossTable = (props: IMMCrossTableProps) => {
                                 return (
                                     <tr key={`host-${host.id}`}>
                                         <td>{i + 1}</td>
-                                        <td>{host.name}</td>
+                                        <td>{host.n}</td>
                                         {
                                             h.map((guest) => {
                                                 if(host.id !== guest.id) {
-                                                    let result = props.mmCrossTable.find(mmct => mmct.hostTeamId === host.id && mmct.guestTeamId === guest.id);
+                                                    let result = props.mmCrossTable.find(mmct => mmct.hId === host.id && mmct.gId === guest.id);
                                                     if(!!!result) {
-                                                        result = props.mmCrossTable.find(mmct => mmct.hostTeamId === guest.id && mmct.guestTeamId === host.id);
+                                                        result = props.mmCrossTable.find(mmct => mmct.hId === guest.id && mmct.gId === host.id);
                                                     }
-                                                    const hs = result?.hostScore || 0;
-                                                    const gs = result?.guestScore || 0;
+                                                    const hs = result?.hs || 0;
+                                                    const gs = result?.gs || 0;
 
                                                     const className = hs > gs ? "green" : (hs == gs ? "yellow" : "red");
 

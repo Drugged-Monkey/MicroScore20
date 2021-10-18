@@ -1,13 +1,24 @@
-import { loadSeasonsFromDb } from '../libs/firebase';
+import { loadTownsFromDb, loadSeasonsFromDb } from '../libs/firebase';
 
 import * as express from 'express';
 
 export const getSeasonsRouteHandler = (request: express.Request, response: express.Response) => {
     const townId = request.query.townId as string;
 
-    loadSeasonsFromDb(townId)
-        .then(r => {
-            response.status(200).json(r);
+    loadTownsFromDb()
+        .then(towns => {
+            const town = towns.find(t => t.id === townId);
+            if (!!town) {
+                return town;
+            } else {
+                throw new Error(`Town '${townId}' not found`);
+            }
+        })
+        .then((town) => {
+            return loadSeasonsFromDb(town.id)
+                .then(r => {
+                    response.status(200).json(r);
+                });
         })
         .catch(err => {
             console.error(err);

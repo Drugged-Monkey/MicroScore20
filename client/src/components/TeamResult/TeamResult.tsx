@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { ITeamResult } from '../../libs/interfaces';
+import { ITeamResultDetailed } from '../../libs/interfaces';
 import cssExports from './TeamResult.scss';
 
 export interface ITeamResultProps {
-    result: ITeamResult
+    result: ITeamResultDetailed
 }
 
 class TeamResult extends React.Component<ITeamResultProps, {}> {

@@ -28,11 +28,11 @@ export const MMTable = (props: IMMTableProps) => {
                             props.mmTable.map((m, i) => {
                                 return  <tr key={`host-${m.id}`}>
                                             <td>{i + 1}</td>
-                                            <td>{m.name}</td>
-                                            <td>{m.win}</td>
-                                            <td>{m.draw}</td>
-                                            <td>{m.lose}</td>
-                                            <td>{m.score}</td>
+                                            <td>{m.n}</td>
+                                            <td>{m.w}</td>
+                                            <td>{m.d}</td>
+                                            <td>{m.l}</td>
+                                            <td>{m.s}</td>
                                         </tr>
                            })
                         }

@@ -11,7 +11,7 @@ export interface ITeam {
     town?: ITownBase;
 }
 
-export interface ITeamResult {
+export interface ITeamResultDetailed {
     team: ITeam;
     current: ITeam;
     questionsTotal: number;
@@ -27,11 +27,20 @@ export interface ITitles {
 }
 
 export interface ITour {
+    id?: string;
     a?: number;
     b?: number;
     c?: number;
     final?: number;
     hosts?: number[];
+    results?: ITeamResult[];
+}
+
+export interface ITeamResult {
+    id: string;
+    name: string;
+    result: number;
+    ratingId?: number;
 }
 
 export interface ISeason {
@@ -42,6 +51,7 @@ export interface ISeason {
 
 export interface ITeamResultLight {
     id: string;
+    ratingId?: number;
     score: number;
 }
 
@@ -52,19 +62,19 @@ export interface ITourLight {
 
 export interface IMMTableTeam {
     id: string;
-    name: string;
-    score: number;
-    win: number;
-    draw: number;
-    lose: number;
-    place: number;
+    n: string;
+    s: number;
+    w: number;
+    d: number;
+    l: number;
+    p: number;
 }
 
 export interface IMMCrossTableMatch {
-    hostTeamId: string;
-    guestTeamId: string;
-    hostScore: number;
-    guestScore: number;
+    hId: string;
+    gId: string;
+    hs: number;
+    gs: number;
 }
 
 export interface IMM {
@@ -73,6 +83,7 @@ export interface IMM {
     table: IMMTableTeam[];
     crossTable: IMMCrossTableMatch[];
 }
+
 
 export interface ITown extends ITownBase {
     titles: ITitles;
@@ -141,6 +152,7 @@ export const defaultCommonState: ICommonState = {
 export interface IMMState {
     townId: string;
     seasonId: string;
+    seasonName: string;
     table: IMMTableTeam[];
     crossTable: IMMCrossTableMatch[];
 }
@@ -148,6 +160,7 @@ export interface IMMState {
 export const defaultMMState: IMMState = {
     townId: null,
     seasonId: null,
+    seasonName: null,
     table: [],
     crossTable: []
 }

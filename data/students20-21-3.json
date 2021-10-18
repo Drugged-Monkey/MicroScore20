@@ -1,0 +1,29 @@
+{
+  "name": "Тур",
+  "ratingId": null,
+  "townId": "eJgGibHceSroZJ4NYdj7",
+  "seasonId": "JuEDKttGXhZn26tj8MCH",
+  "a": 3,
+  "b": null,
+  "c": null,
+  "final": null,
+  "hosts": [],
+  "results": [
+    { "name": "Прост", "score": 28 },
+    { "name": "Ў", "score": 23 },
+    { "name": "Трансцендентальное единство аудиодескрипции", "score": 22 },
+    { "name": "Камни делают У", "score": 19 },
+    { "name": "Зюзюка и Другие", "score": 17 },
+    { "name": "Вечное цукуёми", "score": 16 },
+    { "name": "не по средствам налогоплательщикам", "score": 16 },
+    { "name": "Зимующие раки", "score": 16 },
+    { "name": "Бизнес как свиньи", "score": 15 },
+    { "name": "Ричард Третий", "score": 13 },
+    { "name": "Стокгольмский синдром", "score": 12 },
+    { "name": "Хармпати", "score": 11 },
+    { "name": "Островец стабильности", "score": 10 },
+    { "name": "Рыба с паспортом", "score": 10 },
+    { "name": "Як Дионис", "score": 9 },
+    { "name": "Мы здесь за еду", "score": 6 }
+  ]
+}

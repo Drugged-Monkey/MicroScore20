@@ -11,8 +11,7 @@ export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void
             await loadTowns().then(towns => {
                 const items = towns.map(t => { return { 
                     name: t.name, 
-                    id: t.id,
-                    link: `/town/${t.id}` 
+                    id: t.id
                 } as IHeaderLevelItem });
                 dispatch({
                     type: ActionType.ADDMANY_LEVEL2,
@@ -35,8 +34,7 @@ export const loadSeasonsThunkActionCreator: ActionCreator<ThunkAction<Promise<vo
             await loadSeasons(townId).then(seasons => {
                 const items = seasons.map(s => { return { 
                     name: s.name, 
-                    id: s.id,
-                    link: `/town/${townId}/season/${s.id}`  
+                    id: s.id
                 } as IHeaderLevelItem });
 
                 dispatch({
