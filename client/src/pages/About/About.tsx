@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ActionType } from '../../libs/interfaces';
+import { store } from '../../libs/store';
 
 import cssExports from './About.scss';
 
@@ -10,6 +12,10 @@ class About extends React.Component<IAboutProps, {}> {
   constructor(props: IAboutProps){
     super(props);
 
+    store.dispatch({type: ActionType.CLEAN_LEVEL3});
+    store.dispatch({type: ActionType.CLEAN_MM});
+    store.dispatch({type: ActionType.CLEAN_SEASON});
+    store.dispatch({type: ActionType.CLEAN_TOWN});
   }
 
   render() {

@@ -20,7 +20,10 @@ export const loadTownsFromDb = async (): Promise<ITownBase[]> => {
    townsCache = q.get()
     .then((docs) => {
       const data: ITownBase[] = [] as ITownBase[];
-      docs.forEach((doc) => data.push({ name: (doc.data() as ITownBase).name, id: doc.id }));
+      docs.forEach((doc) => {
+        const town = doc.data() as ITownBase;
+        data.push({ name: town.name, id: doc.id, order: town.order });
+      });
       return data.sort((a, b) => (a.order || 0) - (b.order || 0));
     })
     .catch((e) => {

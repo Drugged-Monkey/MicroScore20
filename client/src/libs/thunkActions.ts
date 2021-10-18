@@ -9,7 +9,11 @@ export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void
             dispatch({type: ActionType.LOADING });
 
             await loadTowns().then(towns => {
-                const items = towns.map(t => { return { name: t.name, id: t.id.toString() } as IHeaderLevelItem });
+                const items = towns.map(t => { return { 
+                    name: t.name, 
+                    id: t.id,
+                    link: `/town/${t.id}` 
+                } as IHeaderLevelItem });
                 dispatch({
                     type: ActionType.ADDMANY_LEVEL2,
                     payload: items
@@ -28,8 +32,12 @@ export const loadSeasonsThunkActionCreator: ActionCreator<ThunkAction<Promise<vo
         try {
             dispatch({type: ActionType.LOADING });
 
-            await loadSeasons(townId).then(towns => {
-                const items = towns.map(t => { return { name: t.name, id: t.id } as IHeaderLevelItem });
+            await loadSeasons(townId).then(seasons => {
+                const items = seasons.map(s => { return { 
+                    name: s.name, 
+                    id: s.id,
+                    link: `/town/${townId}/season/${s.id}`  
+                } as IHeaderLevelItem });
 
                 dispatch({
                     type: ActionType.ADDMANY_LEVEL3,

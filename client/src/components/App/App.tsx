@@ -20,6 +20,8 @@ const App = () => {
             <Router>
                 <Header />
                 <Route path="/" exact component={Home} />
+                <Route path="/town/:townId" component={Home} />
+                <Route path="/town/:townId/season/:seasonId" component={Home} />
                 <Route path="/about" component={About} />
             </Router>
             <Footer />
