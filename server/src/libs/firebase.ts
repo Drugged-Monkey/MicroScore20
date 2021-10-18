@@ -13,19 +13,22 @@ admin.initializeApp({
 let townsCache: Promise<ITownBase[]>;
 export const loadTownsFromDb = async (): Promise<ITownBase[]> => {
   if (!!townsCache) return townsCache;
-  return townsCache = admin
+  const q = admin
     .firestore()
-    .collection("towns")
-    .get()
+    .collection("towns");
+
+   townsCache = q.get()
     .then((docs) => {
       const data: ITownBase[] = [] as ITownBase[];
       docs.forEach((doc) => data.push({ name: (doc.data() as ITownBase).name, id: doc.id }));
-      return data;
+      return data.sort((a, b) => (a.order || 0) - (b.order || 0));
     })
     .catch((e) => {
       console.error(e);
       throw e;
     });
+
+    return townsCache;
 };
 
 const seasonsCache: Cache<Promise<ISeasonBase[]>> = new Cache<Promise<ISeasonBase[]>>();
@@ -44,9 +47,11 @@ export const loadSeasonsFromDb = async (townId: string): Promise<ISeasonBase[]> 
   result = q.get()
     .then(docs => {
       const data: ISeasonBase[] = [] as ISeasonBase[];
-      docs.forEach((doc) => data.push({ name: (doc.data() as ISeasonBase).name, id: doc.id }));
-      console.log(data);
-      return data;
+      docs.forEach((doc) => {
+        const season = (doc.data() as ISeasonBase)
+        data.push({ name: season.name, id: doc.id, order: season.order });
+      });
+      return data.sort((a, b) => (a.order || 0) - (b.order || 0));
     })
     .catch((e) => {
       console.error(e);

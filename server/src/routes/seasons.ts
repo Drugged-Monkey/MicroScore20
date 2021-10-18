@@ -5,8 +5,6 @@ import * as express from 'express';
 export const getSeasonsRouteHandler = (request: express.Request, response: express.Response) => {
     const townId = request.query.townId as string;
 
-    console.log("request.query: ", request.query);
-
     loadSeasonsFromDb(townId)
         .then(r => {
             response.status(200).json(r);
