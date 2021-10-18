@@ -26,13 +26,44 @@ export const loadTournament = async (id: number): Promise<ITeamResult[]> => {
         );
 }
 
-/*
+let townsCache: Promise<ITownBase[]>;
 export const loadTowns = (): Promise<ITownBase[]> => {
-    return loadTownsFromDb();
-}
-*/
+    if(!!townsCache) return townsCache;
 
-export const loadTowns = (): Promise<ITownBase[]> => {
+    return townsCache = 
+        fetch('/api/towns')
+            .then(res => res.json())
+            .then(body => {
+                console.log(body);
+                return body;
+            })
+            .catch(err => console.error(err));
+
+        /*
+        const fetchData = async () => {
+            callBackendAPI()
+                .then(res => {
+                    console.log(res); 
+                })
+                .catch(err => { 
+                    console.error(err);
+                });
+        }
+    
+        const callBackendAPI = async () => {
+        const response = await fetch('/api/towns');
+        const body = await response.json();
+        
+        if (response.status !== 200) {
+            throw Error(body.message) 
+        }
+        return body;
+        }
+        */
+}
+
+
+export const loadFakeTowns = (): Promise<ITownBase[]> => {
     const cities = appSettings.cities;
 
     return new Promise<ITownBase[]>((resolve, reject) => {

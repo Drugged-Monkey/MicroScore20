@@ -6,9 +6,8 @@ import { loadTownsFromDb } from './libs/firebase';
 const app = express();
 const port = process.env.PORT || 5000;
 
-console.log(dotenvConfig);
-
 app.listen(port, () => {
+  console.log(dotenvConfig);
   console.log(`Listening on port ${port}`)
 });
 
