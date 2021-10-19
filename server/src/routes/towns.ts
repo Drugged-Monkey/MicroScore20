@@ -1,9 +1,9 @@
-import { loadTownsFromDb } from '../libs/firebase';
+import { listTowns } from '../libs/firebase';
 
 import * as express from 'express';
 
 export const getTownsRouteHandler = (request: express.Request, response: express.Response) => {
-  loadTownsFromDb()
+  listTowns()
     .then(r => {
       response.status(200).json(r);
     })

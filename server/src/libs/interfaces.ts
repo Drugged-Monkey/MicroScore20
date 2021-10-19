@@ -15,6 +15,17 @@ export interface ITownBase extends ISortable{
 export interface ISeasonBase extends ISortable{
     id?: string;
     name?: string;
+    exclude?: ITeam[]
+}
+
+export interface ITeam {
+    id: string;
+    name: string;
+    ratingId?: number;
+}
+
+export interface ITeamResult extends ITeam {
+    score: number;
 }
 
 export interface ITour extends ISortable {
@@ -25,19 +36,6 @@ export interface ITour extends ISortable {
     final?: number;
     hosts?: number[];
     results?: ITeamResult[];
-}
-
-export interface ITeamResult {
-    id: string;
-    name: string;
-    score: number;
-    ratingId?: number;
-}
-
-export interface ITeam {
-    id: string;
-    name: string;
-    town?: ITownBase;
 }
 
 export interface IMMTableTeam {

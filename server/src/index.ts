@@ -3,7 +3,7 @@ import express from 'express';
 import { dotenvConfig } from './libs/dotenv';
 import { getTownsRouteHandler } from './routes/towns';
 import { getSeasonsRouteHandler } from './routes/seasons';
-import { getToursRouteHandler, postTourRouteHandler } from './routes/tours';
+import { getToursRouteHandler, postTourRouteHandler, putTourRouteHandler } from './routes/tours';
 import { getMMRouteHandler } from './routes/mm';
 
 const app = express();
@@ -21,6 +21,7 @@ app.get('/api/towns', getTownsRouteHandler);
 app.get('/api/seasons', getSeasonsRouteHandler);
 
 app.get('/api/tours', getToursRouteHandler);
+app.put('/api/tours', putTourRouteHandler);
 app.post('/api/tours', postTourRouteHandler);
 
 app.get('/api/mm', getMMRouteHandler);

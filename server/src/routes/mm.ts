@@ -1,13 +1,13 @@
 
 import * as express from 'express';
 import { IMM, IMMCrossTableMatch, IMMTableTeam, ITeam } from '../libs/interfaces';
-import { loadTownsFromDb, loadSeasonsFromDb, loadToursFromDb } from '../libs/firebase';
+import { listTowns, listSeasons, listTours } from '../libs/firebase';
 
 export const getMMRouteHandler = (request: express.Request, response: express.Response) => {
     const townId = request.query.townId as string;
     const seasonId = request.query.seasonId as string;
 
-    loadTownsFromDb()
+    listTowns()
         .then(towns => {
             const town = towns.find(t => t.id === townId);
             if (!!town) {
@@ -17,7 +17,7 @@ export const getMMRouteHandler = (request: express.Request, response: express.Re
             }
         })
         .then((town) => {
-            return loadSeasonsFromDb(town.id)
+            return listSeasons(town.id)
                 .then(r => {
                     const season = r.find(s => s.id === seasonId);
                     if (!!season) {
@@ -30,13 +30,16 @@ export const getMMRouteHandler = (request: express.Request, response: express.Re
         .then((data) => {
             const season = data.season;
             const town = data.town;
+            const exclude = season.exclude || [];
 
-            return loadToursFromDb(town.id, season.id)
+            return listTours(town.id, season.id)
                 .then(tours => {
                     let table: IMMTableTeam[] = [];
                     const crossTable: IMMCrossTableMatch[] = [];
 
-                    const teams: ITeam[] = [...new Set(tours.flatMap(t => t.results).map(item => item.name))].map((name, i) => { return { id: (i+1).toString(), name } as ITeam });
+                    let teams: ITeam[] = [...new Set(tours.flatMap(t => t.results).map(item => item.name))].map((name, i) => { return { id: (i+1).toString(), name } as ITeam });
+
+                    teams = teams.filter(t => !!!exclude.find(e => e.name === t.name || e.id === t.id || (!!e.ratingId &&  t.ratingId && e.ratingId === t.ratingId)));
 
                     tours = tours.map(tour => {
                         return { ...tour, ...{

@@ -13,7 +13,7 @@ const adminApp = admin.initializeApp({
 const db = adminApp.firestore();
 
 let townsCache: Promise<ITownBase[]>;
-export const loadTownsFromDb = (): Promise<ITownBase[]> => {
+export const listTowns = (): Promise<ITownBase[]> => {
   if (!!townsCache) return townsCache;
   const q = db.collection("towns");
 
@@ -35,7 +35,7 @@ export const loadTownsFromDb = (): Promise<ITownBase[]> => {
 };
 
 const seasonsCache: Cache<Promise<ISeasonBase[]>> = new Cache<Promise<ISeasonBase[]>>();
-export const loadSeasonsFromDb = (townId: string): Promise<ISeasonBase[]> => {
+export const listSeasons = (townId: string): Promise<ISeasonBase[]> => {
   const key = townId;
 
   let result = seasonsCache.get(key)
@@ -47,10 +47,10 @@ export const loadSeasonsFromDb = (townId: string): Promise<ISeasonBase[]> => {
 
   result = q.get()
     .then(docs => {
-      const data: ISeasonBase[] = [] as ISeasonBase[];
+      const data: ISeasonBase[] = [];
       docs.forEach((doc) => {
-        const season = (doc.data() as ISeasonBase)
-        data.push({ name: season.name, id: doc.id, order: season.order });
+        const season = doc.data() as ISeasonBase;
+        data.push({...season, ...{  id: doc.id }} as ISeasonBase);
       });
       return data.sort(sorterCreator(SortDirection.ASC));
     })
@@ -64,7 +64,7 @@ export const loadSeasonsFromDb = (townId: string): Promise<ISeasonBase[]> => {
 }
 
 const toursCache: Cache<Promise<ITour[]>> = new Cache<Promise<ITour[]>>();
-export const loadToursFromDb = (townId: string, seasonId: string): Promise<ITour[]> => {
+export const listTours = (townId: string, seasonId: string): Promise<ITour[]> => {
   const key = `${townId}-${seasonId}`;
 
   let result = toursCache.get(key)
@@ -80,8 +80,8 @@ export const loadToursFromDb = (townId: string, seasonId: string): Promise<ITour
       let data: ITour[] = [] as ITour[];
       docs.forEach((doc) => {
         const d = doc.data() as ITour;
-        // data.push({ ...d, ...{ id: doc.id, results: d.results.sort((a, b) => a.score - b.score) } } as ITour);
-        data.push({ ...d, ...{ id: doc.id } } as ITour);
+        data.push({ ...d, ...{ id: doc.id, results: d.results.sort((a, b) => a.score - b.score) } } as ITour);
+        // data.push({ ...d, ...{ id: doc.id } } as ITour);
       });
       data = data.sort(sorterCreator(SortDirection.ASC));
       return data;
@@ -95,7 +95,42 @@ export const loadToursFromDb = (townId: string, seasonId: string): Promise<ITour
   return toursCache.get(key);
 }
 
-export const writeTourToDb = (tour: ITour): Promise<ITour> => {
+
+export const getTour = (id: string): Promise<ITour> => {
+  return db.collection("tours").doc(id).get()
+    .then(doc => {
+      const data: ITour = doc.data() as ITour;
+      return data;
+    })
+    .catch((e) => {
+      console.error(e);
+      throw e;
+    });
+}
+
+export const updateTour = (tour: ITour): Promise<ITour> => {
+  const id = tour.id;
+  return getTour(id)
+    .then(tourFromDb => {
+      const tourToSave = { ...tourFromDb, ...tour};
+
+      return db.collection("tours")
+        .add(tourToSave)
+        .then(r => {
+          return r.get();
+        })
+        .then(r => {
+          const result = { ...r.data(), ...{ id: r.id } };
+          return result;
+        });
+    })
+    .catch(err => {
+      console.error("db: ", err);
+      throw new Error(err);
+    });
+}
+
+export const saveTour = (tour: ITour): Promise<ITour> => {
   return db.collection("tours")
     .add(tour)
     .then(r => {

@@ -1,11 +1,11 @@
-import { loadTownsFromDb, loadSeasonsFromDb } from '../libs/firebase';
+import { listTowns, listSeasons } from '../libs/firebase';
 
 import * as express from 'express';
 
 export const getSeasonsRouteHandler = (request: express.Request, response: express.Response) => {
     const townId = request.query.townId as string;
 
-    loadTownsFromDb()
+    listTowns()
         .then(towns => {
             const town = towns.find(t => t.id === townId);
             if (!!town) {
@@ -15,7 +15,7 @@ export const getSeasonsRouteHandler = (request: express.Request, response: expre
             }
         })
         .then((town) => {
-            return loadSeasonsFromDb(town.id)
+            return listSeasons(town.id)
                 .then(r => {
                     response.status(200).json(r);
                 });
