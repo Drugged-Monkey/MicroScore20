@@ -1,4 +1,4 @@
-import { listTowns } from '../libs/firebase';
+import { listTowns } from '../services/towns';
 
 import * as express from 'express';
 

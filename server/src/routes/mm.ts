@@ -1,7 +1,9 @@
 
 import * as express from 'express';
 import { IMM, IMMCrossTableMatch, IMMTableTeam, ITeam } from '../libs/interfaces';
-import { listTowns, listSeasons, listTours } from '../libs/firebase';
+import { listTours } from '../services/tours';
+import { listTowns } from '../services/towns';
+import { listSeasons } from '../services/seasons';
 
 export const getMMRouteHandler = (request: express.Request, response: express.Response) => {
     const townId = request.query.townId as string;

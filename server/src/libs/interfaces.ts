@@ -7,19 +7,20 @@ export enum SortDirection {
     DESC = "DESC"
 }
 
-export interface ITownBase extends ISortable{
+export interface IEntity {
     id?: string;
+}
+
+export interface ITownBase extends ISortable, IEntity{
     name?: string;
 }
 
-export interface ISeasonBase extends ISortable{
-    id?: string;
+export interface ISeasonBase extends ISortable, IEntity{
     name?: string;
     exclude?: ITeam[]
 }
 
-export interface ITeam {
-    id: string;
+export interface ITeam extends IEntity {
     name: string;
     ratingId?: number;
 }
@@ -28,8 +29,7 @@ export interface ITeamResult extends ITeam {
     score: number;
 }
 
-export interface ITour extends ISortable {
-    id: string;
+export interface ITourBase extends ISortable, IEntity {
     a?: number;
     b?: number;
     c?: number;
@@ -38,8 +38,7 @@ export interface ITour extends ISortable {
     results?: ITeamResult[];
 }
 
-export interface IMMTableTeam {
-    id: string;
+export interface IMMTableTeam extends IEntity {
     n: string;
     s: number;
     w: number;
