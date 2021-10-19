@@ -33,7 +33,7 @@ export const putTourRouteHandler = (request: express.Request, response: express.
     const tour = request.body as ITourBase;
 
     saveTour(tour)
-        .then(r => response.status(201).json(r))
+        .then(r => response.status(200).json(r))
         .catch(err => {
             console.error("handler: ", err);
             response.status(500).json({ error: err });
