@@ -1,19 +1,33 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { IApplicationState, IMMCrossTableItem, IMMState, IMMTableItem } from "../../libs/interfaces";
+import { ActionType, IApplicationState, IMMCrossTableItem, IMMState, IMMTableItem } from "../../libs/interfaces";
 import MMCrossTable from "../../components/MMCrossTable/MMCrossTable";
 import MMTable from "../../components/MMTable/MMTable";
 
 import cssExports from "./MM.scss";
 import { loadSeasons, loadTowns } from "../../libs/repositories";
+import { useParams } from "react-router";
 
 export interface IMMProps {
   townId?: string;
   seasonId?: string;
 }
 
-const MM = (props?: IMMProps) => {
+const MM = () => {
+  const params = useParams<IMMProps>();
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if(!!params.townId) {
+        dispatch({ type: ActionType.CHANGE_TOWN, payload: params.townId });
+    }
+
+    if(!!params.seasonId) {
+      dispatch({ type: ActionType.CHANGE_SEASON, payload: params.seasonId });
+    }
+  }, []);
+
   const townId = useSelector<IApplicationState, string>(state => state.mm.townId);
   const seasonId = useSelector<IApplicationState, string>(state => state.mm.seasonId);
   const mmTable = useSelector<IApplicationState, IMMTableItem[]>(state => state.mm.table);
@@ -42,11 +56,11 @@ const MM = (props?: IMMProps) => {
   }, [seasonId]);
 
   React.useEffect(() => {
-    loadTown()
+    loadTown();
   }, [loadTown])
 
   React.useEffect(() => {
-    loadSeason()
+    loadSeason();
   }, [loadSeason])
 
   React.useEffect(() => {

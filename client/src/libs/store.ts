@@ -22,7 +22,7 @@ const composedEnhancer = composeWithDevTools(
 
 export const store = createStore(rootReducer, composedEnhancer);
 
-export const fetchinItialData = async () => {
+export const fetchInitialData = async (): Promise<void> => {
     store.dispatch({ 
         type: ActionType.ADDMANY_LEVEL1,
         payload: [{ name: "Home", link: "/" }, { name: "About", link: "/about" }] as IHeaderLevelItem[]
