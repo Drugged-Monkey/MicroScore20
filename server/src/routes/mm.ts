@@ -110,20 +110,19 @@ export const getMMRouteHandler = (request: express.Request, response: express.Re
                     const mm = {
                         townId: town.id,
                         seasonId: season.id,
-                        seasonName: season.name,
                         table,
                         crossTable
                     } as IMM;
 
                     response.status(200).json(mm);
                 })
-                .catch(err => {
+                .catch((err: Error) => {
                     throw err;
                 })
         })
-        .catch(err => {
-            console.error(err);
-            response.status(500).json({ error: err });
+        .catch((err: Error) => {
+            console.error("getMMRouteHandler: ", err);
+            response.status(500).json({ error: err.message });
         });
 };
 

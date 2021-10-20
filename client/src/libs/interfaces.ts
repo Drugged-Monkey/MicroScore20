@@ -1,5 +1,29 @@
 import { Action } from "redux";
 
+// ENUMS
+
+export enum ActionType {
+    ADDMANY_LEVEL1 = "ADDMANY_LEVEL1",
+    CLEAN_LEVEL1 = "CLEAN_LEVEL1",
+    ADDMANY_LEVEL2 = "ADDMANY_LEVEL2",
+    CLEAN_LEVEL2 = "CLEAN_LEVEL2",
+    ADDMANY_LEVEL3 = "ADDMANY_LEVEL3",
+    CLEAN_LEVEL3 = "CLEAN_LEVEL3",
+    LOAD_TOWNS = "LOAD_TOWNS",
+    CHANGE_TOWN = "CHANGE_TOWN",
+    CLEAN_TOWN = "CLEAN_TOWN",
+    CHANGE_SEASON = "CHANGE_SEASON",
+    CLEAN_SEASON = "CLEAN_SEASON",
+    LOADING = "LOADING",
+    LOADED = "LOADED",
+    CLEAN_MM = "CLEAN_MM",
+    ADD_MM = "ADD_MM"
+}
+
+// ENUMS
+
+// INTERFACES
+
 export interface ITownBase {
     id: string;
     name: string;
@@ -60,7 +84,7 @@ export interface ITourLight {
     results: ITeamResultLight[]
 }
 
-export interface IMMTableTeam {
+export interface IMMTableItem {
     id: string;
     n: string;
     s: number;
@@ -70,7 +94,7 @@ export interface IMMTableTeam {
     p: number;
 }
 
-export interface IMMCrossTableMatch {
+export interface IMMCrossTableItem {
     hId: string;
     gId: string;
     hs: number;
@@ -80,8 +104,8 @@ export interface IMMCrossTableMatch {
 export interface IMM {
     townId: string;
     seasonId: string;
-    table: IMMTableTeam[];
-    crossTable: IMMCrossTableMatch[];
+    table: IMMTableItem[];
+    crossTable: IMMCrossTableItem[];
 }
 
 
@@ -98,24 +122,6 @@ export interface IHeaderLevelItem {
     id: string;
     name: string;
     link?: string;
-}
-
-export enum ActionType {
-    ADDMANY_LEVEL1 = "ADDMANY_LEVEL1",
-    CLEAN_LEVEL1 = "CLEAN_LEVEL1",
-    ADDMANY_LEVEL2 = "ADDMANY_LEVEL2",
-    CLEAN_LEVEL2 = "CLEAN_LEVEL2",
-    ADDMANY_LEVEL3 = "ADDMANY_LEVEL3",
-    CLEAN_LEVEL3 = "CLEAN_LEVEL3",
-    LOAD_TOWNS = "LOAD_TOWNS",
-    CHANGE_TOWN = "CHANGE_TOWN",
-    CLEAN_TOWN = "CLEAN_TOWN",
-    CHANGE_SEASON = "CHANGE_SEASON",
-    CLEAN_SEASON = "CLEAN_SEASON",
-    LOADING = "LOADING",
-    LOADED = "LOADED",
-    CLEAN_MM = "CLEAN_MM",
-    ADD_MM = "ADD_MM"
 }
 
 export interface IAction extends Action {
@@ -152,15 +158,13 @@ export const defaultCommonState: ICommonState = {
 export interface IMMState {
     townId: string;
     seasonId: string;
-    seasonName: string;
-    table: IMMTableTeam[];
-    crossTable: IMMCrossTableMatch[];
+    table: IMMTableItem[];
+    crossTable: IMMCrossTableItem[];
 }
 
 export const defaultMMState: IMMState = {
     townId: null,
     seasonId: null,
-    seasonName: null,
     table: [],
     crossTable: []
 }
@@ -176,3 +180,5 @@ export const defaultApplicationState: IApplicationState = {
     common: defaultCommonState,
     mm: defaultMMState
 }
+
+// INTERFACES

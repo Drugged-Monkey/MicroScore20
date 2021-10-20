@@ -10,9 +10,9 @@ export const getToursRouteHandler = (request: express.Request, response: express
         .then(tours => {
             response.status(200).json(tours);
         })
-        .catch(err => {
-            console.error(err);
-            response.status(500).json({ error: err });
+        .catch((err: Error) => {
+            console.error("getToursRouteHandler: ", err);
+            response.status(500).json({ error: err.message });
         });
 }
 
@@ -23,9 +23,9 @@ export const postTourRouteHandler = (request: express.Request, response: express
 
     saveTour(tour)
         .then(r => response.status(201).json(r))
-        .catch(err => {
-            console.error("handler: ", err);
-            response.status(500).json({ error: err });
+        .catch((err: Error) => {
+            console.error("postTourRouteHandler: ", err);
+            response.status(500).json({ error: err.message });
         });
 }
 
@@ -34,8 +34,8 @@ export const putTourRouteHandler = (request: express.Request, response: express.
 
     saveTour(tour)
         .then(r => response.status(200).json(r))
-        .catch(err => {
-            console.error("handler: ", err);
-            response.status(500).json({ error: err });
+        .catch((err: Error) => {
+            console.error("putTourRouteHandler: ", err);
+            response.status(500).json({ error: err.message });
         });
 }

@@ -121,8 +121,8 @@ export const mmReducer = (state: IMMState = defaultMMState, action: IAction): IM
                 ...state, ...{
                     townId: null,
                     seasonId: null,
-                    table: null,
-                    crossTable: null
+                    table: [],
+                    crossTable: []
                 }
             } as IMMState;
         }

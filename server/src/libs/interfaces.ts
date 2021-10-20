@@ -57,7 +57,6 @@ export interface IMMCrossTableMatch {
 export interface IMM {
     townId: string;
     seasonId: string;
-    seasonName: string;
     table: IMMTableTeam[];
     crossTable: IMMCrossTableMatch[];
 }

@@ -13,7 +13,7 @@ const listAndSortSeasons = (townId: string) => () => {
             if (!!town) {
                 return town;
             } else {
-                throw new Error(`Town '${townId}' not found`);
+                throw new Error(`Town '${townId}' not found!`);
             }
         })
         .then((town) => seasonsRepository.listByTown(town.id).then(r => r.sort(sorterCreator(SortDirection.ASC))))

@@ -9,8 +9,8 @@ export const getSeasonsRouteHandler = (request: express.Request, response: expre
         .then((seasons) => {
             response.status(200).json(seasons);
         })
-        .catch(err => {
-            console.error(err);
-            response.status(500).json({ error: err });
+        .catch((err: Error) => {
+            console.error("getSeasonsRouteHandler: ", err);
+            response.status(500).json({ error: err.message });
         });
 }

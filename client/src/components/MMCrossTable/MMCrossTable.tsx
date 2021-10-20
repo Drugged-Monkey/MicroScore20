@@ -1,11 +1,11 @@
 import * as React from "react";
 
 import cssExports from "./MMCrossTable.scss";
-import { IMMCrossTableMatch, IMMTableTeam } from "../../libs/interfaces";
+import { IMMCrossTableItem, IMMTableItem } from "../../libs/interfaces";
 
 export interface IMMCrossTableProps {
-    mmCrossTable: IMMCrossTableMatch[];
-    mmTable: IMMTableTeam[];
+    mmCrossTable: IMMCrossTableItem[];
+    mmTable: IMMTableItem[];
 }
 
 export const MMCrossTable = (props: IMMCrossTableProps) => {

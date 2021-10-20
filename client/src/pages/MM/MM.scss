@@ -1,0 +1,36 @@
+.mm-page {
+  background-color: beige;
+  width: 100%;
+  height: 780px;
+
+      .mm-result {
+        h3 {
+            margin: 0px;
+        }
+
+        h4 {
+            margin: 0px;
+        }
+
+        .mm-tables-container {
+            display: flex;
+            align-items: stretch;
+
+            
+            div {
+                margin-right: 20px;
+
+                table {
+
+                    tr {
+                        
+                        td {
+                            border: 1px dotted lightgray;
+                            padding: 2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

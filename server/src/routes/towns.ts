@@ -4,10 +4,11 @@ import * as express from 'express';
 
 export const getTownsRouteHandler = (request: express.Request, response: express.Response) => {
   listTowns()
-    .then(r => {
-      response.status(200).json(r);
+    .then(towns => {
+      response.status(200).json(towns);
     })
-    .catch(err => {
-      response.status(500).json({ error: err });
-    })
+    .catch((err: Error) => {
+      console.error("getTownsRouteHandler: ", err);
+      response.status(500).json({ error: err.message });
+    });
 }

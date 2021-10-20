@@ -22,24 +22,17 @@ export const loadTournamentFromRating = async (
             },
         }
     )
-        .then((res) => res.json())
-        .then(
-            (result) => {
-                return result;
-            },
-            (error) => {
-                console.error(error);
-            }
-        );
+    .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+    .catch((err) => { console.error(err); return null; });
 };
 
 let townsCache: Promise<ITownBase[]>;
 export const loadTowns = (): Promise<ITownBase[]> => {
     if (!!townsCache) return townsCache;
 
-    return (townsCache = fetch("/api/towns")
-        .then((res) => res.json())
-        .catch((err) => console.error(err)));
+    return townsCache = fetch("/api/towns")
+        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .catch((err) => { console.error(err); return null; });
 };
 
 let seasonsCache: Cache<Promise<ISeason[]>> = new Cache<Promise<ISeason[]>>();
@@ -50,8 +43,8 @@ export const loadSeasons = (townId: string): Promise<ISeason[]> => {
     if (!!result) return result;
 
     result = fetch(`/api/seasons?townId=${townId}`)
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
+        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .catch((err) => { console.error(err); return null; });
 
     seasonsCache.put(key, result);
     return seasonsCache.get(key);
@@ -65,8 +58,8 @@ export const loadTours = (townId: string, seasonId: string): Promise<ITour[]> =>
     if (!!result) return result;
 
     result = fetch(`/api/tours?townId=${townId}&seasonId=${seasonId}`)
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
+        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .catch((err) => { console.error(err); return null; });
 
     toursCache.put(key, result);
     return toursCache.get(key);
@@ -81,8 +74,8 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
     if (!!result) return result;
 
     result = fetch(`/api/mm?townId=${townId}&seasonId=${seasonId}`)
-        .then((res) => res.json())
-        .catch((err) => console.error(err));
+        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .catch((err) => { console.error(err); return null; });
 
     mmCache.put(key, result);
     return mmCache.get(key);

@@ -8,7 +8,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'production',
   entry: {
-    main: './app.tsx',
+    main: './index.tsx',
   },
   output: {
     filename: '[name].[contenthash].bundle.js',

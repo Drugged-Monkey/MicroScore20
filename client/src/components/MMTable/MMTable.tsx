@@ -1,10 +1,10 @@
 import * as React from "react";
 
 import cssExports from "./MMTable.scss";
-import { IMMTableTeam } from "../../libs/interfaces";
+import { IMMTableItem } from "../../libs/interfaces";
 
 export interface IMMTableProps {
-    mmTable: IMMTableTeam[];
+    mmTable: IMMTableItem[];
 }
 
 export const MMTable = (props: IMMTableProps) => {

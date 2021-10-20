@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 
 import App from './components/App/App';
 
-import { fetchinItialData, store } from './libs/store';
-
-fetchinItialData();
+import { store } from './libs/store';
 
 ReactDOM.render(
   <Provider store={store}>
