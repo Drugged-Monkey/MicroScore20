@@ -1,12 +1,12 @@
 import { ActionCreator, Dispatch } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { ActionType, IAction, IApplicationState, IHeaderLevelItem } from "./interfaces";
-import { loadMM, loadSeasons, loadTowns } from "./repositories";
+import { loadMM, loadSeason, loadSeasons, loadTown, loadTowns } from "./repositories";
 
-export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = () => {
+export const loadTownsAsMenuItemsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = () => {
     return async (dispatch: Dispatch<IAction>): Promise<void> => {
         try {
-            dispatch({type: ActionType.LOADING });
+           dispatch({type: ActionType.LOADING });
 
             await loadTowns().then(towns => {
                 const items = towns.map(t => { return { 
@@ -22,12 +22,50 @@ export const loadTownsThunkActionCreator: ActionCreator<ThunkAction<Promise<void
         } catch (e) {
             
         } finally {
-            dispatch({type: ActionType.LOADED });
+           dispatch({type: ActionType.LOADED });
         }
     };
 };
 
-export const loadSeasonsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string) => {
+export const loadTownThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string) => {
+    return async (dispatch: Dispatch<IAction>): Promise<void> => {
+        try {
+           dispatch({type: ActionType.LOADING });
+
+            await loadTown(townId).then(town => {
+                dispatch({
+                    type: ActionType.LOAD_TOWN,
+                    payload: town
+                } as IAction);
+            });
+        } catch (e) {
+
+        } finally {
+           dispatch({type: ActionType.LOADED });
+        }
+    };
+};
+
+export const loadSeasonThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string, seasonId: string) => {
+    return async (dispatch: Dispatch<IAction>): Promise<void> => {
+        try {
+           dispatch({type: ActionType.LOADING });
+
+            await loadSeason(townId, seasonId).then(season => {
+                dispatch({
+                    type: ActionType.LOAD_SEASON,
+                    payload: season
+                } as IAction);
+            });
+        } catch (e) {
+
+        } finally {
+          dispatch({type: ActionType.LOADED });
+        }
+    };
+};
+
+export const loadSeasonsAsMenuItemsThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string) => {
     return async (dispatch: Dispatch<IAction>): Promise<void> => {
         try {
             dispatch({type: ActionType.LOADING });
@@ -52,7 +90,7 @@ export const loadSeasonsThunkActionCreator: ActionCreator<ThunkAction<Promise<vo
     };
 };
 
-export const loadSeasonThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string, seasonId: string) => {
+export const loadMMTablesThunkActionCreator: ActionCreator<ThunkAction<Promise<void>, IApplicationState, {}, IAction>> = (townId: string, seasonId: string) => {
     return async (dispatch: Dispatch<IAction>): Promise<void> => {
         try {
             dispatch({type: ActionType.LOADING });

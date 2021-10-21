@@ -1,4 +1,4 @@
-import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState } from "./interfaces";
+import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState, ITownBase, ISeasonBase } from "./interfaces";
 
 export const headerReducer = (state: IHeaderState = defaultHeaderState, action: IAction): IHeaderState => {
     switch (action.type) {
@@ -47,36 +47,63 @@ export const headerReducer = (state: IHeaderState = defaultHeaderState, action: 
             } as IHeaderState;
         }
         // LEVEL 3
-        // CHANGE TOWN
+        // CHANGE TOWN AND SEASON
         case ActionType.CHANGE_TOWN: {
             return {
                 ...state, ...{
-                    townId: action.payload
-                }
+                    town: action.payload as ITownBase
+                } 
             }
         }
         case ActionType.CLEAN_TOWN: {
             return {
                 ...state, ...{
-                    townId: null
+                    town: null
+                }
+            }
+        }        
+        case ActionType.LOAD_TOWN: {
+            return {
+                ...state, ...{
+                    town: action.payload as ITownBase
                 }
             }
         }
         case ActionType.CHANGE_SEASON: {
             return {
                 ...state, ...{
-                    seasonId: action.payload
+                    season: action.payload as ISeasonBase
                 }
             }
         }
         case ActionType.CLEAN_SEASON: {
             return {
                 ...state, ...{
-                    seasonId: null
+                    season: null
                 }
             }
         }
-        // CHANGE TOWN
+        case ActionType.LOAD_SEASON: {
+            return {
+                ...state, ...{
+                    season: action.payload as ISeasonBase
+                }
+            }
+        }
+        case ActionType.CHANGE_TOWN_AND_SEASON: {
+            const { townId, seasonId } = action.payload;
+            return {
+                ...state, ... {
+                    town: {
+                        id: townId
+                    } as ITownBase,
+                    season: {
+                        id: seasonId,
+                    } as ISeasonBase
+                }
+            }
+        }
+        // CHANGE TOWN AND SEASON
         default:
             return state;
     }

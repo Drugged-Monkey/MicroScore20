@@ -6,7 +6,7 @@ import MMCrossTable from "../../components/MMCrossTable/MMCrossTable";
 import MMTable from "../../components/MMTable/MMTable";
 
 import cssExports from "./MM.scss";
-import { loadSeasons, loadTowns } from "../../libs/repositories";
+import { loadSeason, loadTown } from "../../libs/repositories";
 import { useParams } from "react-router";
 
 export interface IMMProps {
@@ -15,53 +15,27 @@ export interface IMMProps {
 }
 
 const MM = () => {
-  const params = useParams<IMMProps>();
+  const { seasonId, townId } = useParams<IMMProps>();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if(!!params.townId) {
-        dispatch({ type: ActionType.CHANGE_TOWN, payload: params.townId });
-    }
-
-    if(!!params.seasonId) {
-      dispatch({ type: ActionType.CHANGE_SEASON, payload: params.seasonId });
+    console.log("effect:", townId, seasonId);
+    if(!!townId) {
+        if(!!seasonId) {
+          dispatch({ type: ActionType.CHANGE_TOWN_AND_SEASON, payload: { seasonId, townId }});
+        } else {
+          dispatch({ type: ActionType.CHANGE_TOWN, payload: { id: townId }});
+        }
     }
   }, []);
 
-  const townId = useSelector<IApplicationState, string>(state => state.mm.townId);
-  const seasonId = useSelector<IApplicationState, string>(state => state.mm.seasonId);
+  const townName = useSelector<IApplicationState, string>(state => state.header.town?.name);
+  const seasonName = useSelector<IApplicationState, string>(state => state.header.season?.name);
+
   const mmTable = useSelector<IApplicationState, IMMTableItem[]>(state => state.mm.table);
   const mmCrossTable = useSelector<IApplicationState, IMMCrossTableItem[]>(state => state.mm.crossTable);
 
-  const [ seasonName, setSeasonName ] = React.useState<string>(null);
-  const [ townName, setTownName ] = React.useState<string>(null);
-  const [ isTablesVisible, setIsTablesVisible ] = React.useState<boolean>(false);
-
-  const loadTown = React.useCallback(async () => {
-    await loadTowns()
-      .then(towns => { 
-        const town = towns.find(town => town.id === townId); 
-        setTownName(town?.name); 
-      })
-      .catch(err => console.error(err));
-  }, [townId]);
-
-  const loadSeason = React.useCallback(async () => {
-    await loadSeasons(townId)
-      .then(seasons => { 
-        const season = seasons.find(season => season.id === seasonId); 
-        setSeasonName(season?.name); 
-      })
-      .catch(err => console.error(err));
-  }, [seasonId]);
-
-  React.useEffect(() => {
-    loadTown();
-  }, [loadTown])
-
-  React.useEffect(() => {
-    loadSeason();
-  }, [loadSeason])
+  const [ isTablesVisible, setIsTablesVisible ] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     setIsTablesVisible(!!seasonName && !!townName);

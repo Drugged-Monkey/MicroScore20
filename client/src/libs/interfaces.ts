@@ -11,9 +11,12 @@ export enum ActionType {
     CLEAN_LEVEL3 = "CLEAN_LEVEL3",
     LOAD_TOWNS = "LOAD_TOWNS",
     CHANGE_TOWN = "CHANGE_TOWN",
+    LOAD_TOWN = "LOAD_TOWN",
     CLEAN_TOWN = "CLEAN_TOWN",
     CHANGE_SEASON = "CHANGE_SEASON",
+    LOAD_SEASON = "LOAD_SEASON",
     CLEAN_SEASON = "CLEAN_SEASON",
+    CHANGE_TOWN_AND_SEASON = "CHANGE_TOWN_AND_SEASON",
     LOADING = "LOADING",
     LOADED = "LOADED",
     CLEAN_MM = "CLEAN_MM",
@@ -67,7 +70,7 @@ export interface ITeamResult {
     ratingId?: number;
 }
 
-export interface ISeason {
+export interface ISeasonBase {
     id: string;
     name: string;
     tours: ITour[];
@@ -111,7 +114,7 @@ export interface IMM {
 
 export interface ITown extends ITownBase {
     titles: ITitles;
-    seasons: ISeason[];
+    seasons: ISeasonBase[];
 }
 
 export interface IAppSettings {
@@ -130,16 +133,20 @@ export interface IAction extends Action {
 }
 
 export interface IHeaderState {
-    townId?: string,
-    seasonId?: string,
+    //townId?: string,
+    //seasonId?: string,
+    town: ITownBase,
+    season: ISeasonBase,
     level1: IHeaderLevelItem[],
     level2: IHeaderLevelItem[],
     level3: IHeaderLevelItem[]
 }
 
 export const defaultHeaderState: IHeaderState = {
-    townId: null,
-    seasonId: null,
+    //townId: null,
+    //seasonId: null,
+    town: null,
+    season: null,
     level1: [],
     level2: [],
     level3: []

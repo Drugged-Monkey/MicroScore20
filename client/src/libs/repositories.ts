@@ -1,5 +1,5 @@
 import {
-    ISeason,
+    ISeasonBase,
     ITeamResultDetailed,
     ITownBase,
     IMM,
@@ -31,12 +31,35 @@ export const loadTowns = (): Promise<ITownBase[]> => {
     if (!!townsCache) return townsCache;
 
     return townsCache = fetch("/api/towns")
-        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
-        .catch((err) => { console.error(err); return null; });
+        .then((res) => { 
+            if(res.status === 500) {
+                 throw new Error(res.statusText); 
+                }; 
+                return res.json(); 
+        })
+        .catch((err) => { console.error(err); throw new Error(`Can't load towns: ${err}`);});
 };
 
-let seasonsCache: Cache<Promise<ISeason[]>> = new Cache<Promise<ISeason[]>>();
-export const loadSeasons = (townId: string): Promise<ISeason[]> => {
+export const loadTown = (townId: string): Promise<ITownBase> => {
+    return loadTowns()
+        .then((towns) => { 
+            if(!!!towns || towns.length === 0) { 
+                throw new Error("Towns are empty!.");
+            }; 
+            const town = towns.find(t => t.id == townId);
+            if(!!!town) {
+                throw new Error(`Town '${townId}' not found!`);
+            }
+            return town;
+        })
+        .catch((err) => {
+             console.error(err); 
+             throw new Error(`Town '${townId}' not found!`);
+         });
+};
+
+let seasonsCache: Cache<Promise<ISeasonBase[]>> = new Cache<Promise<ISeasonBase[]>>();
+export const loadSeasons = (townId: string): Promise<ISeasonBase[]> => {
     const key = townId;
     let result = seasonsCache.get(key);
 
@@ -48,6 +71,24 @@ export const loadSeasons = (townId: string): Promise<ISeason[]> => {
 
     seasonsCache.put(key, result);
     return seasonsCache.get(key);
+};
+
+export const loadSeason = (townId: string, seasonId: string): Promise<ISeasonBase> => {
+    return loadSeasons(townId)
+        .then((seasons) => { 
+            if(!!!seasons || seasons.length === 0) { 
+                throw new Error("Seasons are empty!.");
+            }; 
+            const season = seasons.find(t => t.id == seasonId);
+            if(!!!season) {
+                throw new Error(`Season '${seasonId}' not found!`);
+            }
+            return season;
+        })
+        .catch((err) => {
+             console.error(err); 
+             throw new Error(`Season '${seasonId}' not found!`);
+         });
 };
 
 let toursCache: Cache<Promise<ITour[]>> = new Cache<Promise<ITour[]>>();

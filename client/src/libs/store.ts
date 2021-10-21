@@ -4,8 +4,8 @@ import thunkMiddleware, { ThunkDispatch } from 'redux-thunk'
 
 import { ActionType, IAction, IApplicationState, IHeaderLevelItem } from "./interfaces";
 import { commonReducer, headerReducer, mmReducer } from './reducers';
-import { loggerMiddleware, seasonMiddleware, seasonsMiddleware } from './middlewares';
-import { loadTownsThunkActionCreator } from './thunkActions';
+import { loggerMiddleware, changeSeasonMiddleware, changeTownMiddleware, changeTownAndSeasonMiddleware } from './middlewares';
+import { loadTownsAsMenuItemsThunkActionCreator } from './thunkActions';
 
 const rootReducer = combineReducers<IApplicationState, IAction>({
     common: commonReducer,
@@ -16,8 +16,9 @@ const rootReducer = combineReducers<IApplicationState, IAction>({
 const composedEnhancer = composeWithDevTools(
     applyMiddleware(thunkMiddleware),
     applyMiddleware(loggerMiddleware),
-    applyMiddleware(seasonsMiddleware),
-    applyMiddleware(seasonMiddleware),
+    applyMiddleware(changeTownMiddleware),
+    applyMiddleware(changeSeasonMiddleware),
+    applyMiddleware(changeTownAndSeasonMiddleware)
 );
 
 export const store = createStore(rootReducer, composedEnhancer);
@@ -28,5 +29,5 @@ export const fetchInitialData = async (): Promise<void> => {
         payload: [{ name: "Home", link: "/" }, { name: "About", link: "/about" }] as IHeaderLevelItem[]
     });
 
-    (store.dispatch as ThunkDispatch<IApplicationState, {}, IAction>)(loadTownsThunkActionCreator());
+    (store.dispatch as ThunkDispatch<IApplicationState, {}, IAction>)(loadTownsAsMenuItemsThunkActionCreator());
 };

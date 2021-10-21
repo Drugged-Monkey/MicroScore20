@@ -8,14 +8,14 @@ export interface IHeaderLevelProps {
   level: number;
   items: IHeaderLevelItem[];
   selectedId?: string;
-  onClickHandler?: (id: string) => (event: React.MouseEvent) => void
+  onClickHandler?: (id: string, name: string) => (event: React.MouseEvent) => void
 }
 
 export interface IHeaderLevelState {
   level: number;
   items: IHeaderLevelItem[];
   selectedId?: string;
-  onClickHandler?: (id: string) => (event: React.MouseEvent) => void
+  onClickHandler?: (id: string, name: string) => (event: React.MouseEvent) => void
 }
 
 class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> {
@@ -48,10 +48,10 @@ class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> 
                   if(!!!onClickHandler) {
                     return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
                   } else {
-                    return <li key={i}><a href="#" data-href={item.link} onClick={onClickHandler(item.id)}>[{item.name}]</a></li>
+                    return <li key={i}><a href="#" data-href={item.link} onClick={onClickHandler(item.id, item.name)}>[{item.name}]</a></li>
                   }
                 } else {
-                  return <li key={i}><a href="#" onClick={onClickHandler(item.id)}>[{item.name}]</a></li>
+                  return <li key={i}><a href="#" onClick={onClickHandler(item.id, item.name)}>[{item.name}]</a></li>
                 }
               }
             }
