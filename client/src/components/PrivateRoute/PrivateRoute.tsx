@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
-import { IApplicationState, IAuthState } from '../../libs/interfaces';
+import { IApplicationState, IAuthState, ILocationState } from '../../libs/interfaces';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
 
@@ -17,7 +17,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
                     <Redirect
                         to={{
                             pathname: "/login",
-                            state: { from: props.location }
+                            state: { from: props.location } as ILocationState
                         }}
                     />
                 )

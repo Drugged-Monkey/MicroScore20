@@ -200,4 +200,16 @@ export const defaultApplicationState: IApplicationState = {
     auth: defaultAuthState
 }
 
+export interface ILocationState {
+    from: {
+        pathname: string
+    }
+}
+
+export const defaultLocationState: ILocationState = {
+    from: {
+        pathname: "/"
+    }
+}
+
 // INTERFACES

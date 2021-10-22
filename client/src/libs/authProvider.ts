@@ -12,20 +12,20 @@ class AuthProvider implements IAuthProvider {
 
     //public get isAuthenticated() {
     //    return this._isAuthenticated;
-   // }
+    // }
 
-    public signIn(cb: () => void): Promise<void> {
+    public signIn(cb?: () => void): Promise<void> {
         return delay(1000).then(() => {
-             if (!!cb) { cb(); }; 
-             store.dispatch({ type: ActionType.AUTH_SIGNIN });
+            if (!!cb) { cb(); };
+            store.dispatch({ type: ActionType.AUTH_SIGNIN });
             // this._isAuthenticated = true; 
         });
     }
 
-    public signOut(cb: () => void): Promise<void> {
+    public signOut(cb?: () => void): Promise<void> {
         return delay(1000).then(() => {
-             if (!!cb) { cb(); }; 
-             store.dispatch({ type: ActionType.AUTH_SIGNOUT });
+            if (!!cb) { cb(); };
+            store.dispatch({ type: ActionType.AUTH_SIGNOUT });
             // this._isAuthenticated = false; 
         });
     }
