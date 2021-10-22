@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { ActionType, IApplicationState, IMMCrossTableItem, IMMState, IMMTableItem } from "../../libs/interfaces";
+import { ActionType, IApplicationState, IHeaderState, IMMCrossTableItem, IMMState, IMMTableItem } from "../../libs/interfaces";
 import MMCrossTable from "../../components/MMCrossTable/MMCrossTable";
 import MMTable from "../../components/MMTable/MMTable";
 
@@ -29,11 +29,11 @@ const MM = () => {
     }
   }, []);
 
-  const townName = useSelector<IApplicationState, string>(state => state.header.town?.name);
-  const seasonName = useSelector<IApplicationState, string>(state => state.header.season?.name);
+  const { town, season }  = useSelector<IApplicationState, IHeaderState>(state => state.header);
+  const { table, crossTable } = useSelector<IApplicationState, IMMState>(state => state.mm);
 
-  const mmTable = useSelector<IApplicationState, IMMTableItem[]>(state => state.mm.table);
-  const mmCrossTable = useSelector<IApplicationState, IMMCrossTableItem[]>(state => state.mm.crossTable);
+  const townName = town?.name;
+  const seasonName = season?.name;
 
   const [ isTablesVisible, setIsTablesVisible ] = React.useState<boolean>(true);
 
@@ -51,10 +51,10 @@ const MM = () => {
           </div>
           <div className={cssExports["mm-tables-container"]}>
             <div>
-              <MMTable mmTable={mmTable} />
+              <MMTable mmTable={table} />
             </div>
             <div>
-              <MMCrossTable mmTable={mmTable} mmCrossTable={mmCrossTable} />
+              <MMCrossTable mmTable={table} mmCrossTable={crossTable} />
             </div>
           </div>
         </div>

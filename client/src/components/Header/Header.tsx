@@ -2,18 +2,16 @@ import * as React from "react";
 
 import cssExports from './Header.scss';
 import HeaderLevel from '../HeaderLevel/HeaderLevel';
-import { ActionType, IApplicationState, IHeaderLevelItem, ITownBase } from "../../libs/interfaces";
+import { ActionType, IApplicationState, IHeaderLevelItem, IHeaderState, ITownBase } from "../../libs/interfaces";
 import { useSelector } from "react-redux";
 import { store } from "../../libs/store";
 import { useHistory, useLocation, useParams } from "react-router";
 
 
 const Header = () => {
-  const level1 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level1);
-  const level2 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level2);
-  const townId = useSelector<IApplicationState, string>(state => state.header.town?.id);
-  const level3 = useSelector<IApplicationState, IHeaderLevelItem[]>(state => state.header.level3);
-  const seasonId = useSelector<IApplicationState, string>(state => state.header.season?.id);
+  const { level1, level2, level3, town, season }  = useSelector<IApplicationState, IHeaderState>(state => state.header);
+  const townId  = town?.id;
+  const seasonId = season?.id;
 
   const history = useHistory();
 
