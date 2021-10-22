@@ -20,7 +20,9 @@ export enum ActionType {
     LOADING = "LOADING",
     LOADED = "LOADED",
     CLEAN_MM = "CLEAN_MM",
-    ADD_MM = "ADD_MM"
+    ADD_MM = "ADD_MM",
+    AUTH_SIGNIN = "AUTH_SIGNIN",
+    AUTH_SIGNOUT = "AUTH_SIGNOUT",
 }
 
 // ENUMS
@@ -179,13 +181,23 @@ export const defaultMMState: IMMState = {
 export interface IApplicationState {
     header: IHeaderState,
     common: ICommonState,
-    mm: IMMState
+    mm: IMMState,
+    auth: IAuthState
+}
+
+export interface IAuthState {
+    isAuthenticated: boolean;
+}
+
+export const defaultAuthState: IAuthState = {
+    isAuthenticated: false
 }
 
 export const defaultApplicationState: IApplicationState = {
     header: defaultHeaderState,
     common: defaultCommonState,
-    mm: defaultMMState
+    mm: defaultMMState,
+    auth: defaultAuthState
 }
 
 // INTERFACES

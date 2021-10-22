@@ -3,8 +3,10 @@ import cssExports from './HeaderLevel.scss';
 
 import { IHeaderLevelItem } from '../../libs/interfaces';
 import { NavLink, useRouteMatch } from "react-router-dom";
+import AuthButton from '../AuthButton/AuthButton';
 
 export interface IHeaderLevelProps {
+  renderAuthButton?: boolean;
   level: number;
   items: IHeaderLevelItem[];
   selectedId?: string;
@@ -12,6 +14,7 @@ export interface IHeaderLevelProps {
 }
 
 export interface IHeaderLevelState {
+  renderAuthButton: boolean;
   level: number;
   items: IHeaderLevelItem[];
   selectedId?: string;
@@ -19,10 +22,12 @@ export interface IHeaderLevelState {
 }
 
 class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> {
+
   constructor(props: IHeaderLevelProps) {
     super(props);
 
     this.state = {
+      renderAuthButton: this.props.renderAuthButton || false,
       level: this.props.level,
       items: this.props.items,
       selectedId: this.props.selectedId,
@@ -31,21 +36,24 @@ class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> 
   }
 
   render() {
-    const { level, items, selectedId, onClickHandler } = this.state;
+    const { level, items, selectedId, onClickHandler, renderAuthButton } = this.state;
     const classKey = `header-level-${level}`;
     const className = `${cssExports["header-level"]} ${cssExports[classKey]}`;
     const selectedClassName = cssExports.selected;
-    const isVisible = !!items && items.length > 0;
+    const isVisible = (!!items && items.length > 0) || renderAuthButton;
 
-    return isVisible ? (
-      <ul className={className}>
-        {
-          items.map((item, i) => {
+    return (
+      <div>
+      {
+        isVisible ? (
+        <ul className = { className } >
+          {
+            items.map((item, i) => {
               if ((!!item.id && item.id === selectedId)) {
                 return <li key={i}><a href="#" className={selectedClassName}> {item.name} </a></li>
               } else {
                 if (!!item.link) {
-                  if(!!!onClickHandler) {
+                  if (!!!onClickHandler) {
                     return <li key={i}><NavLink to={item.link}>[{item.name}]</NavLink></li>
                   } else {
                     return <li key={i}><a href="#" data-href={item.link} onClick={onClickHandler(item.id, item.name)}>[{item.name}]</a></li>
@@ -55,12 +63,17 @@ class HeaderLevel extends React.Component<IHeaderLevelProps, IHeaderLevelState> 
                 }
               }
             }
-          )
-        }
-      </ul>
-    ) : "";
+            )
+          }
+          <li> { renderAuthButton ? <AuthButton /> : null }</li>
+        </ul>
+      ) : null
+    }
+    </div>
+    )
   }
 }
+
 
 export default HeaderLevel;
 
@@ -68,7 +81,7 @@ export default HeaderLevel;
 
 const HeaderLevel = (props?: IHeaderLevelProps) => {
     props = props || {} as IHeaderLevelProps;
-    
+
     const [ level, setLevel ] = React.useState<number>(-1);
     const [ items, setItems ] = React.useState<IHeaderLevelItem[]>([]);
     const [ selectedId, setSelectedId ] = React.useState<string>(null);
@@ -104,7 +117,7 @@ const HeaderLevel = (props?: IHeaderLevelProps) => {
                 }
                 else {
                   return <li key={i}><a href="#" onClick={props.onClickHandler(item.id)}>[{item.name}]</a></li>
-                } 
+                }
               }
             }
           )

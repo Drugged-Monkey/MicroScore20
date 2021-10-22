@@ -29,7 +29,7 @@ const Header = () => {
   
   return (
     <div className={cssExports.header}>
-        <HeaderLevel key={`${new Date().getMilliseconds()}1`} level={1} items={level1} />
+        <HeaderLevel key={`${new Date().getMilliseconds()}1`} level={1} items={level1} renderAuthButton={true}/>
         <HeaderLevel key={`${new Date().getMilliseconds()}2`} level={2} items={level2} onClickHandler={onClickHandler(ActionType.CHANGE_TOWN)} selectedId={townId}/>
         <HeaderLevel key={`${new Date().getMilliseconds()}3`} level={3} items={level3} onClickHandler={onClickHandler(ActionType.CHANGE_SEASON)} selectedId={seasonId}/>
     </div>

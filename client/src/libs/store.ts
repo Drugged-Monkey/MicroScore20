@@ -3,14 +3,15 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import thunkMiddleware, { ThunkDispatch } from 'redux-thunk'
 
 import { ActionType, IAction, IApplicationState, IHeaderLevelItem } from "./interfaces";
-import { commonReducer, headerReducer, mmReducer } from './reducers';
+import { commonReducer, headerReducer, mmReducer, authReducer } from './reducers';
 import { loggerMiddleware, changeSeasonMiddleware, changeTownMiddleware, changeTownAndSeasonMiddleware } from './middlewares';
 import { loadTownsAsMenuItemsThunkActionCreator } from './thunkActions';
 
 const rootReducer = combineReducers<IApplicationState, IAction>({
     common: commonReducer,
     header: headerReducer,
-    mm: mmReducer
+    mm: mmReducer,
+    auth: authReducer
 });
 
 const composedEnhancer = composeWithDevTools(
@@ -26,7 +27,7 @@ export const store = createStore(rootReducer, composedEnhancer);
 export const fetchInitialData = async (): Promise<void> => {
     store.dispatch({ 
         type: ActionType.ADDMANY_LEVEL1,
-        payload: [{ name: "Home", link: "/" }, { name: "About", link: "/about" }] as IHeaderLevelItem[]
+        payload: [{ name: "Home", link: "/" }, { name: "About", link: "/about" }, {name: "Admin", link: "/admin" }] as IHeaderLevelItem[]
     });
 
     (store.dispatch as ThunkDispatch<IApplicationState, {}, IAction>)(loadTownsAsMenuItemsThunkActionCreator());

@@ -19,7 +19,6 @@ const MM = () => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    console.log("effect:", townId, seasonId);
     if(!!townId) {
         if(!!seasonId) {
           dispatch({ type: ActionType.CHANGE_TOWN_AND_SEASON, payload: { seasonId, townId }});
@@ -35,7 +34,7 @@ const MM = () => {
   const townName = town?.name;
   const seasonName = season?.name;
 
-  const [ isTablesVisible, setIsTablesVisible ] = React.useState<boolean>(true);
+  const [ isTablesVisible, setIsTablesVisible ] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     setIsTablesVisible(!!seasonName && !!townName);

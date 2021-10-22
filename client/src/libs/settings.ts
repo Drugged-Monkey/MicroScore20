@@ -1,6 +1,5 @@
 import { IAppSettings } from "./interfaces";
 
-//export default appSettings;
 export const appSettings: IAppSettings = {
     cities: [{
         name: "Минск (студенты)",

@@ -1,4 +1,4 @@
-import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState, ITownBase, ISeasonBase } from "./interfaces";
+import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState, ITownBase, ISeasonBase, IAuthState, defaultAuthState } from "./interfaces";
 
 export const headerReducer = (state: IHeaderState = defaultHeaderState, action: IAction): IHeaderState => {
     switch (action.type) {
@@ -152,6 +152,27 @@ export const mmReducer = (state: IMMState = defaultMMState, action: IAction): IM
                     crossTable: []
                 }
             } as IMMState;
+        }
+        default:
+            return state;
+    }
+}
+
+export const authReducer = (state: IAuthState = defaultAuthState, action: IAction): IAuthState => {
+    switch (action.type) {
+        case ActionType.AUTH_SIGNIN: {
+            return {
+                ...state, ...{
+                    isAuthenticated: true
+                }
+            } as IAuthState;
+        }
+        case ActionType.AUTH_SIGNOUT: {
+            return {
+                ...state, ...{
+                    isAuthenticated: false
+                }
+            } as IAuthState;
         }
         default:
             return state;
