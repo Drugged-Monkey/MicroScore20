@@ -4,6 +4,7 @@ import {
     ITownBase,
     IMM,
     ITour,
+    IUserBase,
 } from "./interfaces";
 
 import { Cache } from "./cache";
@@ -22,8 +23,8 @@ export const loadTournamentFromRating = async (
             },
         }
     )
-    .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
-    .catch((err) => { console.error(err); return null; });
+        .then((res) => { if (res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .catch((err) => { console.error(err); return null; });
 };
 
 let townsCache: Promise<ITownBase[]>;
@@ -31,31 +32,31 @@ export const loadTowns = (): Promise<ITownBase[]> => {
     if (!!townsCache) return townsCache;
 
     return townsCache = fetch("/api/towns")
-        .then((res) => { 
-            if(res.status === 500) {
-                 throw new Error(res.statusText); 
-                }; 
-                return res.json(); 
+        .then((res) => {
+            if (res.status === 500) {
+                throw new Error(res.statusText);
+            };
+            return res.json();
         })
-        .catch((err) => { console.error(err); throw new Error(`Can't load towns: ${err}`);});
+        .catch((err) => { console.error(err); throw new Error(`Can't load towns: ${err}`); });
 };
 
 export const loadTown = (townId: string): Promise<ITownBase> => {
     return loadTowns()
-        .then((towns) => { 
-            if(!!!towns || towns.length === 0) { 
+        .then((towns) => {
+            if (!!!towns || towns.length === 0) {
                 throw new Error("Towns are empty!.");
-            }; 
+            };
             const town = towns.find(t => t.id == townId);
-            if(!!!town) {
+            if (!!!town) {
                 throw new Error(`Town '${townId}' not found!`);
             }
             return town;
         })
         .catch((err) => {
-             console.error(err); 
-             throw new Error(`Town '${townId}' not found!`);
-         });
+            console.error(err);
+            throw new Error(`Town '${townId}' not found!`);
+        });
 };
 
 let seasonsCache: Cache<Promise<ISeasonBase[]>> = new Cache<Promise<ISeasonBase[]>>();
@@ -66,7 +67,7 @@ export const loadSeasons = (townId: string): Promise<ISeasonBase[]> => {
     if (!!result) return result;
 
     result = fetch(`/api/seasons?townId=${townId}`)
-        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .then((res) => { if (res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
         .catch((err) => { console.error(err); return null; });
 
     seasonsCache.put(key, result);
@@ -75,20 +76,20 @@ export const loadSeasons = (townId: string): Promise<ISeasonBase[]> => {
 
 export const loadSeason = (townId: string, seasonId: string): Promise<ISeasonBase> => {
     return loadSeasons(townId)
-        .then((seasons) => { 
-            if(!!!seasons || seasons.length === 0) { 
+        .then((seasons) => {
+            if (!!!seasons || seasons.length === 0) {
                 throw new Error("Seasons are empty!.");
-            }; 
+            };
             const season = seasons.find(t => t.id == seasonId);
-            if(!!!season) {
+            if (!!!season) {
                 throw new Error(`Season '${seasonId}' not found!`);
             }
             return season;
         })
         .catch((err) => {
-             console.error(err); 
-             throw new Error(`Season '${seasonId}' not found!`);
-         });
+            console.error(err);
+            throw new Error(`Season '${seasonId}' not found!`);
+        });
 };
 
 let toursCache: Cache<Promise<ITour[]>> = new Cache<Promise<ITour[]>>();
@@ -99,7 +100,7 @@ export const loadTours = (townId: string, seasonId: string): Promise<ITour[]> =>
     if (!!result) return result;
 
     result = fetch(`/api/tours?townId=${townId}&seasonId=${seasonId}`)
-        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .then((res) => { if (res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
         .catch((err) => { console.error(err); return null; });
 
     toursCache.put(key, result);
@@ -115,9 +116,32 @@ export const loadMM = (townId: string, seasonId: string): Promise<IMM> => {
     if (!!result) return result;
 
     result = fetch(`/api/mm?townId=${townId}&seasonId=${seasonId}`)
-        .then((res) => { if(res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
+        .then((res) => { if (res.status === 500) { throw new Error(res.statusText); }; return res.json(); })
         .catch((err) => { console.error(err); return null; });
 
     mmCache.put(key, result);
     return mmCache.get(key);
 };
+
+export const exchangeGoogleTokens = (idToken: string, accessToken: string): Promise<IUserBase> => {
+    return fetch(`/api/google`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ idToken, accessToken })
+        })
+        .then((res) => {
+            if (res.status === 500) {
+                throw new Error(res.statusText);
+            };
+            return res.json();
+        })
+        .then((body) => {
+            return body as IUserBase;
+        })
+        .catch((err) => {
+            console.error(err);
+            return null;
+        });
+}

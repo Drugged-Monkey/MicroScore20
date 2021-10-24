@@ -60,3 +60,13 @@ export interface IMM {
     table: IMMTableTeam[];
     crossTable: IMMCrossTableMatch[];
 }
+
+export interface IUserBase {
+    id: string;
+    name: string;
+    email: string;
+    photoURL?: string;
+    ratingId?: number;
+    roles: string[];
+    authProvider: string;
+}

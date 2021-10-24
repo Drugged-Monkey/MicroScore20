@@ -4,10 +4,11 @@ import { Location } from "history";
 
 import cssExports from "./Login.scss";
 
-import { authProvider } from "../../libs/authProvider";
+import { fakeAuthProvider } from "../../libs/auth/fakeAuthProvider";
 import { defaultLocationState, IApplicationState, IAuthState, ILocationState } from "../../libs/interfaces";
 import { useSelector } from "react-redux";
 import AuthButton from "../../components/AuthButton/AuthButton";
+import { googleAuthenticationProvider } from "../../libs/auth/googleAuthenticationProvider";
 
 interface ILoginProps {
 
@@ -32,12 +33,20 @@ const Login = (props?: ILoginProps) => {
         })
     }
 
+    const onLoginWithGoogleClick = (event): Promise<void> => {
+        return googleAuthenticationProvider.signIn();
+    }
+
     return (
         <div className={cssExports.login}>
             {isAuthenticated ? <Redirect to={from} /> : null}
             <div>
-                <span>You must log in to view the page at <a href={from.pathname}>{from.pathname}</a>! </span>
-                <AuthButton onSignedIn={onSignedIn(history)} />
+                <span>You must log in</span>
+
+                <button onClick={onLoginWithGoogleClick}>Login with google</button>
+                { 
+                // <AuthButton onSignedIn={onSignedIn(history)} />
+                }
             </div>
         </div>
     );

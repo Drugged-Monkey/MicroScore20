@@ -43,51 +43,51 @@ export const listTours = (townId: string, seasonId: string) => toursCache.useCac
 
 export const getTour = (id: string): Promise<ITourBase> => {
     return db.collection("tours").doc(id).get()
-      .then(doc => {
-        const data: ITourBase = doc.data() as ITourBase;
-        return data;
-      })
-      .catch((e) => {
-        console.error(e);
-        throw e;
-      });
-  }
+        .then(doc => {
+            const data: ITourBase = doc.data() as ITourBase;
+            return data;
+        })
+        .catch((e) => {
+            console.error(e);
+            throw e;
+        });
+}
 
-  export const updateTour = (tour: ITourBase): Promise<ITourBase> => {
+export const updateTour = (tour: ITourBase): Promise<ITourBase> => {
     const id = tour.id;
     return getTour(id)
-      .then(tourFromDb => {
-        const tourToSave = { ...tourFromDb, ...tour};
+        .then(tourFromDb => {
+            const tourToSave = { ...tourFromDb, ...tour };
 
-        return db.collection("tours")
-          .add(tourToSave)
-          .then(r => {
+            return db.collection("tours")
+                .add(tourToSave)
+                .then(r => {
+                    return r.get();
+                })
+                .then(r => {
+                    const result = { ...r.data(), ...{ id: r.id } };
+                    return result;
+                });
+        })
+        .catch(err => {
+            console.error("db: ", err);
+            throw new Error(err);
+        });
+}
+
+export const saveTour = (tour: ITourBase): Promise<ITourBase> => {
+    return db.collection("tours")
+        .add(tour)
+        .then(r => {
             return r.get();
-          })
-          .then(r => {
+        })
+        .then(r => {
             const result = { ...r.data(), ...{ id: r.id } };
             return result;
-          });
-      })
-      .catch(err => {
-        console.error("db: ", err);
-        throw new Error(err);
-      });
-  }
-
-  export const saveTour = (tour: ITourBase): Promise<ITourBase> => {
-    return db.collection("tours")
-      .add(tour)
-      .then(r => {
-        return r.get();
-      })
-      .then(r => {
-        const result = { ...r.data(), ...{ id: r.id } };
-        return result;
-      })
-      .catch(err => {
-        console.error("db: ", err);
-        throw new Error(err);
-      });
-  }
+        })
+        .catch(err => {
+            console.error("db: ", err);
+            throw new Error(err);
+        });
+}
 

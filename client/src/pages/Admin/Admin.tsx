@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
-import { authProvider } from '../../libs/authProvider';
+import { fakeAuthProvider } from '../../libs/auth/fakeAuthProvider';
 
 import { ActionType } from '../../libs/interfaces';
 import { store } from '../../libs/store';

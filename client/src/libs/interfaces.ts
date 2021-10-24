@@ -89,6 +89,66 @@ export interface ITourLight {
     results: ITeamResultLight[]
 }
 
+export interface ITown extends ITownBase {
+    titles: ITitles;
+    seasons: ISeasonBase[];
+}
+
+export interface IAppSettings {
+    cities: ITown[];
+}
+
+export interface IHeaderLevelItem {
+    id: string;
+    name: string;
+    link?: string;
+}
+
+export interface IUserBase {
+    id: string;
+    name: string;
+    email: string;
+    photoURL?: string;
+    ratingId?: number;
+    roles: string[];
+    authProvider: string;
+}
+
+// INTERFACES
+
+// STATE 
+
+export interface IAction extends Action {
+    type: ActionType,
+    payload?: any
+}
+
+export interface IHeaderState {
+    town: ITownBase,
+    season: ISeasonBase,
+    level1: IHeaderLevelItem[],
+    level2: IHeaderLevelItem[],
+    level3: IHeaderLevelItem[]
+}
+
+export const defaultHeaderState: IHeaderState = {
+    town: null,
+    season: null,
+    level1: [],
+    level2: [],
+    level3: []
+};
+
+export interface ICommonState {
+    loading: boolean,
+    error: string,
+}
+
+export const defaultCommonState: ICommonState = {
+    loading: false,
+    error: null
+}
+
 export interface IMMTableItem {
     id: string;
     n: string;
@@ -111,57 +171,6 @@ export interface IMM {
     seasonId: string;
     table: IMMTableItem[];
     crossTable: IMMCrossTableItem[];
-}
-
-
-export interface ITown extends ITownBase {
-    titles: ITitles;
-    seasons: ISeasonBase[];
-}
-
-export interface IAppSettings {
-    cities: ITown[];
-}
-
-export interface IHeaderLevelItem {
-    id: string;
-    name: string;
-    link?: string;
-}
-
-export interface IAction extends Action {
-    type: ActionType,
-    payload?: any
-}
-
-export interface IHeaderState {
-    //townId?: string,
-    //seasonId?: string,
-    town: ITownBase,
-    season: ISeasonBase,
-    level1: IHeaderLevelItem[],
-    level2: IHeaderLevelItem[],
-    level3: IHeaderLevelItem[]
-}
-
-export const defaultHeaderState: IHeaderState = {
-    //townId: null,
-    //seasonId: null,
-    town: null,
-    season: null,
-    level1: [],
-    level2: [],
-    level3: []
-};
-
-export interface ICommonState {
-    loading: boolean,
-    error: string,
-}
-
-export const defaultCommonState: ICommonState = {
-    loading: false,
-    error: null
 }
 
 export interface IMMState {
@@ -187,10 +196,12 @@ export interface IApplicationState {
 
 export interface IAuthState {
     isAuthenticated: boolean;
+    user: IUserBase
 }
 
 export const defaultAuthState: IAuthState = {
-    isAuthenticated: false
+    isAuthenticated: false,
+    user: null
 }
 
 export const defaultApplicationState: IApplicationState = {
@@ -212,4 +223,4 @@ export const defaultLocationState: ILocationState = {
     }
 }
 
-// INTERFACES
+// STATE

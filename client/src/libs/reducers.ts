@@ -1,4 +1,4 @@
-import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState, ITownBase, ISeasonBase, IAuthState, defaultAuthState } from "./interfaces";
+import { ActionType, IAction, IApplicationState, IHeaderLevelItem, IHeaderState, defaultHeaderState, ICommonState, defaultCommonState, IMMState, defaultMMState, ITownBase, ISeasonBase, IAuthState, defaultAuthState, IUserBase } from "./interfaces";
 
 export const headerReducer = (state: IHeaderState = defaultHeaderState, action: IAction): IHeaderState => {
     switch (action.type) {
@@ -163,14 +163,16 @@ export const authReducer = (state: IAuthState = defaultAuthState, action: IActio
         case ActionType.AUTH_SIGNIN: {
             return {
                 ...state, ...{
-                    isAuthenticated: true
+                    isAuthenticated: true,
+                    user: action.payload as IUserBase
                 }
             } as IAuthState;
         }
         case ActionType.AUTH_SIGNOUT: {
             return {
                 ...state, ...{
-                    isAuthenticated: false
+                    isAuthenticated: false,
+                    user: null
                 }
             } as IAuthState;
         }
