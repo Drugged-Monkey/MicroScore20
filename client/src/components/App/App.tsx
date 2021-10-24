@@ -13,7 +13,6 @@ import { fetchInitialData } from '../../libs/store';
 import Login from '../../pages/Login/Login';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
-import cssExports from './App.scss'; 
 
 const App = () => {
     const isLoadingVisible = useSelector<IApplicationState, boolean>(state => state.common.loading);
@@ -21,6 +20,7 @@ const App = () => {
     const { pathname } = useLocation();
 
     React.useEffect(() => {
+        
         fetchInitialData();
     }, [])
 

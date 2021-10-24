@@ -6,7 +6,8 @@ import { getTownsRouteHandler } from './routes/towns';
 import { getSeasonsRouteHandler } from './routes/seasons';
 import { getToursRouteHandler, postTourRouteHandler, putTourRouteHandler } from './routes/tours';
 import { getMMRouteHandler } from './routes/mm';
-import { postGoogleIdToken } from './routes/google';
+import { postGoogleTokens } from './routes/google';
+import { getUserRouteHandler } from './routes/users';
 
 
 const app = express();
@@ -29,7 +30,9 @@ app.post('/api/tours', postTourRouteHandler);
 
 app.get('/api/mm', getMMRouteHandler);
 
-app.post('/api/google', postGoogleIdToken);
+app.post('/api/google', postGoogleTokens);
+
+app.get('/api/users/:id', getUserRouteHandler);
 
 app.get('*', (req, res) => {
     res.status(404).json({ message: 'what?!' });

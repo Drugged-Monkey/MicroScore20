@@ -38,8 +38,7 @@ export const listTours = (townId: string, seasonId: string) => toursCache.useCac
 
 
 
-// TODO: DM: REFACTOR
-
+// TODO: AM: REFACTOR
 
 export const getTour = (id: string): Promise<ITourBase> => {
     return db.collection("tours").doc(id).get()

@@ -10,14 +10,9 @@ export const getUser = (id: string) => {
     return usersRepository.list()
         .then((users) => {
             if(!!!users || users.length === 0) {
-                // throw new Error("Users collection is empty!");
                 return null;
             }
             const user = users.find(u => u.id === id);
-            // if(!!!user) {
-               // throw new Error(`There is no user with id '${id}'!`);
-
-            // }
             return user;
         })
 }

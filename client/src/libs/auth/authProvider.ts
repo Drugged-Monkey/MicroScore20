@@ -1,5 +1,5 @@
 export interface IAuthProvider {
     name: string;
-    signIn: (onSignedIn?: () => {}) => Promise<void>;
-    signOut: (onSignedOut?: () => {}) => Promise<void>;
+    signIn: () => Promise<void>;
+    signOut: () => Promise<void>;
 }

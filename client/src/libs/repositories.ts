@@ -138,8 +138,25 @@ export const exchangeGoogleTokens = (idToken: string, accessToken: string): Prom
             return res.json();
         })
         .then((body) => {
-            return body as IUserBase;
+            return Promise.resolve(body as IUserBase);
         })
+        .catch((err) => {
+            console.error(err);
+            return null;
+        });
+}
+
+export const getUser = (id: string): Promise<IUserBase> => {
+    return fetch(`/api/users/${id}`)
+        .then((res) => {
+            if (res.status === 500) {
+                throw new Error(res.statusText);
+            };
+            return res.json();
+        })        
+        .then((body) => {
+            return Promise.resolve(body as IUserBase);
+        })        
         .catch((err) => {
             console.error(err);
             return null;

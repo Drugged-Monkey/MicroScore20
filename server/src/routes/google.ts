@@ -10,7 +10,7 @@ interface IGoogleIdToken {
     accessToken?: string
 }
 
-export const postGoogleIdToken = (request: express.Request, response: express.Response) => {
+export const postGoogleTokens = (request: express.Request, response: express.Response) => {
     const { idToken, accessToken } = request.body as IGoogleIdToken;
     const credential = GoogleAuthProvider.credential(null, accessToken);
     const auth = getAuth(firebaseApp);

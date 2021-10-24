@@ -42,13 +42,8 @@ const AuthButton = (props?: IAuthButtonProps) => {
     const history = useHistory();
     const { isAuthenticated, user } = useSelector<IApplicationState, IAuthState>(state => state.auth);
 
-    const onSignedIn = props?.onSignedIn || defaultAuthButtonProps(history).onSignedIn;
-    const onSignedOut = props?.onSignedOut || defaultAuthButtonProps(history).onSignedOut;
-
-    const signOut = () => { googleAuthenticationProvider.signOut(onSignedOut); };
-    const signIn = () => { googleAuthenticationProvider.signIn(onSignedIn); };
-
-    console.log(googleAuthenticationProvider);
+    const signOut = () => { googleAuthenticationProvider.signOut(); };
+    const signIn = () => { googleAuthenticationProvider.signIn(); };
 
     return (
         <div>
