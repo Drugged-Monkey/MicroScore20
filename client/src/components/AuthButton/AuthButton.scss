@@ -17,6 +17,10 @@
             margin-right: 3px;
             top: -11px;
             position: relative;
+
+            &.login-button {
+                top: 0px;
+            }
         }
 
         img {

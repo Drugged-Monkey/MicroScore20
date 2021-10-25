@@ -57,7 +57,7 @@ const AuthButton = (props?: IAuthButtonProps) => {
                 </div>
             ) : (
                 <div>
-                <button onClick={signIn}>Sign in with {googleAuthenticationProvider.name}</button>
+                    <button className={cssExports["login-button"]} onClick={signIn}>Sign in with {googleAuthenticationProvider.name}</button>
                 </div>
             )}
         </div>
