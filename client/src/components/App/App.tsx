@@ -9,7 +9,7 @@ import About from '../../pages/About/About';
 import Admin from '../../pages/Admin/Admin';
 import MM from '../../pages/MM/MM';
 import { IApplicationState } from '../../libs/interfaces';
-import { fetchInitialData } from '../../libs/store';
+import { loadInitialData } from '../../libs/store';
 import Login from '../../pages/Login/Login';
 import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
@@ -20,8 +20,9 @@ const App = () => {
     const { pathname } = useLocation();
 
     React.useEffect(() => {
-        
-        fetchInitialData();
+        (async () => {
+            await loadInitialData();
+        })();
     }, [])
 
     return (

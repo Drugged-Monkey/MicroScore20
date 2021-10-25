@@ -155,7 +155,7 @@ export const getUser = (id: string): Promise<IUserBase> => {
             return res.json();
         })        
         .then((body) => {
-            body as IUserBase;
+            return Promise.resolve(body as IUserBase);
         })        
         .catch((err) => {
             console.error(err);

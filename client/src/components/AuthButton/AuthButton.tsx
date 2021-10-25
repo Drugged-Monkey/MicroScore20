@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { googleAuthenticationProvider } from "../../libs/auth/googleAuthenticationProvider";
 
 import { IApplicationState, IAuthState } from "../../libs/interfaces";
+import cssExports from "./AuthButton.scss";
 
 
 interface IAuthButtonProps {
@@ -46,12 +47,12 @@ const AuthButton = (props?: IAuthButtonProps) => {
     const signIn = () => { googleAuthenticationProvider.signIn(); };
 
     return (
-        <div>
+        <div className={cssExports["auth-button"]}>
             {
             isAuthenticated ? (
                 <div>
                     <img src={user.photoURL} alt={"avatar"}/>
-                    <span>Hi, {user.name} ({user.email})</span>
+                    <span>Hi, {user.name}</span> 
                     <button onClick={signOut}>Sign out</button>
                 </div>
             ) : (

@@ -12,7 +12,10 @@ interface IGoogleIdToken {
 
 export const postGoogleTokens = (request: express.Request, response: express.Response) => {
     const { idToken, accessToken } = request.body as IGoogleIdToken;
-    const credential = GoogleAuthProvider.credential(idToken, accessToken);
+
+   const credential = GoogleAuthProvider.credential(null, accessToken);
+   // const credential = GoogleAuthProvider.credential(idToken, accessToken);
+
     const auth = getAuth(firebaseApp);
 
     signInWithCredential(auth, credential)
@@ -38,7 +41,7 @@ export const postGoogleTokens = (request: express.Request, response: express.Res
                 } as IUserBase;
                 return createUser(newUser, gUser.uid);
             }
-            
+
             return Promise.resolve(user);
         })
         .then((user) => {

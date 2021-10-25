@@ -1,0 +1,28 @@
+.auth-button {
+    padding: 16px;
+    vertical-align: middle;
+
+
+    div {
+        position: relative;
+        width: 300px;
+
+        span {
+            position: relative;
+            top: -11px;
+            margin-right: 3px;
+        }
+
+        button {
+            margin-right: 3px;
+            top: -11px;
+            position: relative;
+        }
+
+        img {
+            margin-right: 3px;
+            max-width: 30px;
+            max-height: 30px;
+        }
+    }
+}

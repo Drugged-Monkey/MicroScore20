@@ -27,7 +27,7 @@ const composedEnhancer = composeWithDevTools(
 
 export const store = createStore(rootReducer, composedEnhancer);
 
-export const fetchInitialData = async (): Promise<void> => {
+export const loadInitialData = async (): Promise<void> => {
     store.dispatch({
         type: ActionType.ADDMANY_LEVEL1,
         payload: [{ name: "Home", link: "/" }, { name: "About", link: "/about" }, { name: "Admin", link: "/admin" }] as IHeaderLevelItem[]
@@ -37,9 +37,7 @@ export const fetchInitialData = async (): Promise<void> => {
 
     const auth = getAuth(firebaseApp);
 
-    console.log(auth);
-
-    auth.onAuthStateChanged((user: any) => {
+    const unsubscribe = auth.onAuthStateChanged((user: any) => {
         if (!!user && user.uid) {
             getUser(user.uid)
                 .then((user) => {
