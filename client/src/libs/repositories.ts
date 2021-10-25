@@ -138,7 +138,7 @@ export const exchangeGoogleTokens = (idToken: string, accessToken: string): Prom
             return res.json();
         })
         .then((body) => {
-            return Promise.resolve(body as IUserBase);
+            return body as IUserBase;
         })
         .catch((err) => {
             console.error(err);
@@ -155,7 +155,7 @@ export const getUser = (id: string): Promise<IUserBase> => {
             return res.json();
         })        
         .then((body) => {
-            return Promise.resolve(body as IUserBase);
+            body as IUserBase;
         })        
         .catch((err) => {
             console.error(err);
